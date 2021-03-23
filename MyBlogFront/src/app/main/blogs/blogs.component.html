@@ -1,0 +1,38 @@
+<app-welcome></app-welcome>
+
+<div class="container">
+    <div class="blogs-title">
+        <h1>All Blogs</h1>
+        <hr style="height: 1px; background-color: #3B5998">
+    </div>
+    <div class="blogs-wrapper d-flex flex-row align-items-center justify-content-center flex-wrap">
+        <div class="blog d-flex flex-column justify-content-between" *ngFor="let blog of blogs">
+            <a class="h-100" [routerLink]="'/blog/' + blog.id">
+                <div class="img-wrapper">
+                    <img class="blog-image" [src]="blog.photoUrl" (error)="errorImageHandler($event)"
+                         alt="blog image" style="border-radius: 10px">
+                </div>
+                <div class="title-wrapper text-center">
+                    <span>{{blog.title}}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="d-flex flex-row flex-wrap justify-content-center">
+
+    <div class="blogs-wrapper d-flex flex-column" *ngFor="let blog of blogs">
+        <a class="h-100" [routerLink]="'/blog/' + blog.id">
+            <div class="blog-info d-flex flex-column justify-content-between h-100">
+                <div class="img-wrapper">
+                    <img width="256px" height="256px" [src]="blog.photoUrl" (error)="errorImageHandler($event)" alt="blog image" style="border-radius: 10px">
+                </div>
+                <div class="title-wrapper text-center">
+                    <span>{{blog.title}}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>-->
