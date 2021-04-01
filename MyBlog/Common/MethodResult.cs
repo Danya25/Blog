@@ -16,24 +16,24 @@ namespace MyBlog.Common
 
         public MethodResult()
         {
-            this.Success = false;
-            this.Message = "Undefined";
+            Success = false;
+            Message = "Undefined";
         }
 
         public MethodResult<T> SetException(Exception ex)
         {
-            this._exception = ex;
-            this.GetFullExceptionMessage();
+            _exception = ex;
+            GetFullExceptionMessage();
             return this;
         }
         public MethodResult<T> SetValue(T value)
         {
-            this.Value = value;
+            Value = value;
             return this;
         }
         public Exception GetException()
         {
-            return this._exception;
+            return _exception;
         }
         private string GetFullExceptionMessage(Exception ex)
         {
@@ -42,49 +42,49 @@ namespace MyBlog.Common
                 return stringBuilder.ToString();
             stringBuilder.AppendFormat("Message: {0}; Error body: {1}", Message, ex.Message);
             if (ex.InnerException != null)
-                stringBuilder.AppendFormat("\r\nInner exception: {0}", this.GetFullExceptionMessage(ex.InnerException));
+                stringBuilder.AppendFormat("\r\nInner exception: {0}", GetFullExceptionMessage(ex.InnerException));
             return stringBuilder.ToString();
         }
         public string GetFullExceptionMessage()
         {
-            if (this._exception == null)
+            if (_exception == null)
                 return string.Format("Message: {0}; Exception missing", Message);
-            return string.Format("Description:{0}\r\nTrace:{1}", this.GetFullExceptionMessage(this._exception), _exception.StackTrace);
+            return string.Format("Description:{0}\r\nTrace:{1}", GetFullExceptionMessage(_exception), _exception.StackTrace);
         }
 
         public MethodResult<T> SetSuccess(T value, string message = "")
         {
-            this._exception = (Exception)null;
-            this.Success = true;
-            this.Message = message;
-            this.Value = value;
+            _exception = (Exception)null;
+            Success = true;
+            Message = message;
+            Value = value;
             return this;
         }
         public MethodResult<T> SetError(string message, Exception ex = null)
         {
-            this._exception = ex;
-            this.Success = false;
-            this.Message = message;
-            this.GetFullExceptionMessage();
+            _exception = ex;
+            Success = false;
+            Message = message;
+            GetFullExceptionMessage();
             return this;
         }
 
         public MethodResult<T> SetErrorList(List<string> listErrors)
         {
-            this.Errors = listErrors;
+            Errors = listErrors;
             return this;
         }
 
         public void ThrowExceptionIfNotOk()
         {
-            if (this.Success)
+            if (Success)
                 return;
-            this.ThrowException();
+            ThrowException();
         }
 
         public void ThrowException()
         {
-            throw this._exception == null ? new Exception() : new Exception(this.Message);
+            throw _exception == null ? new Exception() : new Exception(Message);
         }
 
         public static MethodResult<T> GetErrorResult(string message = "", Exception ex = null)
