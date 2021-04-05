@@ -1,38 +1,30 @@
 <app-welcome></app-welcome>
 
+<app-new-blogs></app-new-blogs>
+
 <div class="container">
-    <div class="blogs-title">
-        <h1>All Blogs</h1>
-        <hr style="height: 1px; background-color: #3B5998">
+
+    <div class="blogs-title row">
+        <div class="col-12">
+            <h1>All Articles</h1>
+            <hr style="height: 1px; background-color: #3B5998">
+        </div>
     </div>
-    <div class="blogs-wrapper d-flex flex-row align-items-center justify-content-center flex-wrap">
-        <div class="blog d-flex flex-column justify-content-between" *ngFor="let blog of blogs">
-            <a class="h-100" [routerLink]="'/blog/' + blog.id">
-                <div class="img-wrapper">
-                    <img class="blog-image" [src]="blog.photoUrl" (error)="errorImageHandler($event)"
-                         alt="blog image" style="border-radius: 10px">
-                </div>
-                <div class="title-wrapper text-center">
-                    <span>{{blog.title}}</span>
-                </div>
-            </a>
+
+    <div class="blogs-wrapper d-flex flex-wrap row">
+        <div class="col-lg-6 col-md-6 col-12" style="text-align: center; margin-bottom: 40px;"
+             *ngFor="let blog of blogs">
+            <article class="blog d-flex flex-column justify-content-between">
+                <a class="h-100" [routerLink]="'/blog/' + blog.id">
+                    <div class="img-wrapper">
+                        <img class="blog-image" [src]="blog.photoUrl" (error)="errorImageHandler($event)"
+                             alt="blog image">
+                    </div>
+                    <div class="title-wrapper text-center">
+                        <span class="blog-title">{{blog.title}}</span>
+                    </div>
+                </a>
+            </article>
         </div>
     </div>
 </div>
-
-<!--
-<div class="d-flex flex-row flex-wrap justify-content-center">
-
-    <div class="blogs-wrapper d-flex flex-column" *ngFor="let blog of blogs">
-        <a class="h-100" [routerLink]="'/blog/' + blog.id">
-            <div class="blog-info d-flex flex-column justify-content-between h-100">
-                <div class="img-wrapper">
-                    <img width="256px" height="256px" [src]="blog.photoUrl" (error)="errorImageHandler($event)" alt="blog image" style="border-radius: 10px">
-                </div>
-                <div class="title-wrapper text-center">
-                    <span>{{blog.title}}</span>
-                </div>
-            </div>
-        </a>
-    </div>
-</div>-->

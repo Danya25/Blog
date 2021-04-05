@@ -14,19 +14,33 @@
                 <div class="col-xl-4 col-md-4">
                     <div class="logo">
                         <a routerLink="/">
-                            <img src="assets/img/logo.png" alt="Logo Image">
+                            <img alt="Logo Image" src="assets/img/logo.png">
                         </a>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-4 d-none d-md-block">
                     <div class="login_resiter">
-                        <p>
-                            <a routerLink="/auth/login">
-                                <i class="fa fa-user"></i>login
-                            </a>
-                            |
-                            <a routerLink="/auth/registration">Resister</a>
-                        </p>
+                        <ng-container *ngIf="!userService.isLoggedIn(); else user">
+                            <p>
+                                <a routerLink="/auth/login">
+                                    <i class="fa fa-user"></i>login
+                                </a>
+                                |
+                                <a routerLink="/auth/registration">Register</a>
+                            </p>
+                        </ng-container>
+                        <ng-template #user>
+                            <span dropdown>
+                                  <a (click)="false" aria-controls="basic-link-dropdown" dropdownToggle href
+                                     id="basic-link">{{userInfo.username}}</a>
+                                  <ul *dropdownMenu aria-labelledby="basic-link" class="dropdown-menu dropdown-menu-right" id="basic-link-dropdown" role="menu">
+                                    <li>
+                                        <a class="dropdown-item">Мой профиль</a>
+                                        <a class="dropdown-item">Ke1</a>
+                                    </li>
+                                  </ul>
+                            </span>
+                        </ng-template>
                     </div>
                 </div>
             </div>

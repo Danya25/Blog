@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule, UrlSegment} from '@angular/router';
+import {RouterModule, Routes, UrlSegment} from '@angular/router';
 import {AppLayoutComponent} from './layouts/app-layout/app-layout.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NotFoundComponent} from './main/not-found/not-found.component';
 import {BlogsComponent} from './main/blogs/blogs.component';
 import {BlogComponent} from './main/blog/blog.component';
+import {UnauthGuard} from './services/guards/unauth.guard';
 
 const routes: Routes = [
-    {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+    {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
     {path: 'admin', component: AdminLayoutComponent},
     {
         path: '', component: AppLayoutComponent, children: [

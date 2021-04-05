@@ -1,1 +1,34 @@
-<p>login works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-wrapper d-flex flex-row justify-content-center">
+                <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="d-flex flex-column">
+                    <label>
+                        Email:
+                        <input class="form-control" formControlName="email" type="text">
+                    </label>
+                    <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
+                        <span *ngIf="myForm.get('email').errors?.required">
+                            Email required!
+                        </span>
+                        <span *ngIf="myForm.get('email').errors?.email">
+                            Enter email please!
+                        </span>
+                    </span>
+                    <label>
+                        Password:
+                        <input class="form-control" formControlName="password" type="password">
+                    </label>
+                    <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
+                        <span *ngIf="myForm.get('password').errors?.required">
+                            Password required!
+                        </span>
+                    </span>
+                    <button type="submit" class="btn btn-outline-primary">
+                        Отправить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace MyBlog.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("SaveBlog")]
         public async Task<MethodResult<bool>> SaveBlog(BlogDTO blog)
         {
             try
@@ -44,7 +44,7 @@ namespace MyBlog.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetBlogs")]
         public async Task<MethodResult<List<BlogDTO>>> GetBlogs()
         {
             try
@@ -60,7 +60,7 @@ namespace MyBlog.Controllers
             }
         }
 
-        [HttpGet("{id:int:min(0)}")]
+        [HttpGet("GetBlogById/{id:int:min(0)}")]
         public async Task<MethodResult<BlogDTO>> GetBlogById(int id)
         {
             try
@@ -76,7 +76,7 @@ namespace MyBlog.Controllers
             }
         }
 
-        [HttpGet("{id:int:min(0)}")]
+        [HttpGet("DeleteBlogById/{id:int:min(0)}")]
         public async Task<MethodResult<bool>> DeleteBlogById(int id)
         {
             try
@@ -91,6 +91,21 @@ namespace MyBlog.Controllers
             }
         }
 
-
+        [HttpGet("GetFiveNewestBlogs")]
+        public async Task<MethodResult<List<BlogDTO>>> GetFiveNewestBlogs()
+        {
+            try
+            {
+                var result = await _blogService.GetFiveNewestBlogs();
+                var blogs = _mapper.Map<List<BlogDTO>>(result);
+                return blogs.ToSuccessMethodResult();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ex.ToErrorMethodResult<List<BlogDTO>>();
+            }
+            throw new Exception();
+        }
     }
 }

@@ -19,6 +19,8 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
+import { NewBlogsComponent } from './main/new-blogs/new-blogs.component';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 @NgModule({
     declarations: [
@@ -33,6 +35,7 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
         BlogComponent,
         BlogCreatorComponent,
         WelcomeComponent,
+        NewBlogsComponent,
     ],
     imports: [
         BrowserModule,
@@ -42,7 +45,8 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
-        AngularEditorModule
+        AngularEditorModule,
+        BsDropdownModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -51,7 +51,7 @@ export class BlogCreatorComponent implements OnInit {
                 tag: 'h1',
             },
         ],
-        uploadUrl: 'v1/image',
+        uploadUrl: 'api/Photo',
         uploadWithCredentials: false,
         sanitize: true,
         toolbarPosition: 'top',

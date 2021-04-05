@@ -12,5 +12,6 @@ namespace MyBlog.Services.Blog
         Task<bool> DeleteBlogById(int id);
         Task<List<BlogModel>> GetBlogs();
         Task<BlogModel> GetBlogById(int id);
+        Task<List<BlogModel>> GetFiveNewestBlogs();
     }
 }

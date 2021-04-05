@@ -11,5 +11,6 @@ namespace MyBlog.Models.Entity
         public string Title { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
+        public DateTime DateOfCreation { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyBlog.Models.Busines;
 using MyBlog.Models.DTO;
+using MyBlog.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace MyBlog.Services
             CreateMap<BlogModel, Models.Entity.Blog>();
             CreateMap<Models.Entity.Blog, BlogModel>();
             CreateMap<BlogModel, BlogDTO>();
+
+            CreateMap<UserDTO, UserModel>();
+            CreateMap<UserModel, User>();
+
+            CreateMap<UserInfoDTO, UserInfoModel>();
+            CreateMap<UserInfoModel, UserInfoDTO>();
+
         }
     }
 }

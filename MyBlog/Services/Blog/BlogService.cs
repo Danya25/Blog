@@ -44,13 +44,22 @@ namespace MyBlog.Services.Blog
             return blogsModel;
         }
 
+        public async Task<List<BlogModel>> GetFiveNewestBlogs()
+        {
+            var blogs = await _context.Blogs.OrderBy(t => t.DateOfCreation).Take(5).ToListAsync();
+            var blogsModel = _mapper.Map<List<BlogModel>>(blogs);
+            return blogsModel;
+        }
+
         public async Task<bool> SaveBlog(BlogModel blog)
         {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    var blogEntity = _mapper.Map<Models.Entity.Blog>(blog);
+                    blog.DateOfCreation = DateTime.Now;
+
+                    var  blogEntity = _mapper.Map<Models.Entity.Blog>(blog);
 
                     await _context.Blogs.AddAsync(blogEntity);
                     await _context.SaveChangesAsync();
