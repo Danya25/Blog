@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyBlog.Common;
-using MyBlog.Models.Busines;
-using MyBlog.Models.DTO;
+using MyBlog.Domain.Business;
+using MyBlog.Domain.DTO;
 using MyBlog.Services.Blog;
+using MyBlog.Services.Blog.GetBlogById;
+using MyBlog.Services.Blog.GetBlogs;
+using MyBlog.Services.Blog.GetFiveNewestBlogs;
+using MyBlog.Services.Blog.SaveBlog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
@@ -21,11 +24,14 @@ namespace MyBlog.Controllers
         public IBlogService _blogService;
         public IMapper _mapper;
 
-        public BlogController(ILogger<BlogController> logger, IBlogService blogService, IMapper mapper)
+        private readonly IMediator _mediator;
+
+        public BlogController(ILogger<BlogController> logger, IBlogService blogService, IMapper mapper, IMediator mediator)
         {
             _logger = logger;
             _blogService = blogService;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         [HttpPost("SaveBlog")]
@@ -34,7 +40,7 @@ namespace MyBlog.Controllers
             try
             {
                 var blogModel = _mapper.Map<BlogModel>(blog);
-                var result = await _blogService.SaveBlog(blogModel);
+                var result = await _mediator.Send(new SaveBlogCommand(blogModel));
                 return result.ToSuccessMethodResult();
             }
             catch (Exception ex)
@@ -49,9 +55,10 @@ namespace MyBlog.Controllers
         {
             try
             {
-                var blogsModel = await _blogService.GetBlogs();
-                var blogs = _mapper.Map<List<BlogDTO>>(blogsModel);
-                return blogs.ToSuccessMethodResult();
+                var blogs = await _mediator.Send(new GetBlogsQuery());
+                var blogsDto = _mapper.Map<List<BlogDTO>>(blogs);
+
+                return blogsDto.ToSuccessMethodResult();
             }
             catch (Exception ex)
             {
@@ -65,15 +72,34 @@ namespace MyBlog.Controllers
         {
             try
             {
-                var blogModel = await _blogService.GetBlogById(id);
-                var blog = _mapper.Map<BlogDTO>(blogModel);
-                return blog.ToSuccessMethodResult();
+                var blog = await _mediator.Send(new GetBlogByIdQuery(id));
+                var blogDto = _mapper.Map<BlogDTO>(blog);
+
+                return blogDto.ToSuccessMethodResult();
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return ex.ToErrorMethodResult<BlogDTO>();
             }
+        }
+
+        [HttpGet("GetFiveNewestBlogs")]
+        public async Task<MethodResult<List<BlogDTO>>> GetFiveNewestBlogs()
+        {
+            try
+            {
+                var blogs = await _mediator.Send(new GetFiveNewestBlogsQuery());
+                var blogsDto = _mapper.Map<List<BlogDTO>>(blogs);
+
+                return blogsDto.ToSuccessMethodResult();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ex.ToErrorMethodResult<List<BlogDTO>>();
+            }
+            throw new Exception();
         }
 
         [HttpGet("DeleteBlogById/{id:int:min(0)}")]
@@ -89,23 +115,6 @@ namespace MyBlog.Controllers
                 _logger.LogError(ex.Message);
                 return ex.ToErrorMethodResult<bool>();
             }
-        }
-
-        [HttpGet("GetFiveNewestBlogs")]
-        public async Task<MethodResult<List<BlogDTO>>> GetFiveNewestBlogs()
-        {
-            try
-            {
-                var result = await _blogService.GetFiveNewestBlogs();
-                var blogs = _mapper.Map<List<BlogDTO>>(result);
-                return blogs.ToSuccessMethodResult();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return ex.ToErrorMethodResult<List<BlogDTO>>();
-            }
-            throw new Exception();
         }
     }
 }

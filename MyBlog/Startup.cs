@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Text;
-using Microsoft.AspNetCore.Authentication;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MyBlog.Models;
-using MyBlog.Models.Entity;
-using MyBlog.Services;
+using MyBlog.Common.Mapper;
+using MyBlog.DAL;
+using MyBlog.DAL.Entity;
 using MyBlog.Services.Auth;
 using MyBlog.Services.Blog;
 using MyBlog.Services.JWT;
@@ -39,6 +35,8 @@ namespace MyBlog
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var key = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
 
+            var assembly = AppDomain.CurrentDomain.Load("MyBlog.Services");
+            services.AddMediatR(assembly);
 
             services.AddDbContext<ApplicationContext>(opt =>
             {

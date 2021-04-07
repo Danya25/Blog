@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyBlog.Common;
-using MyBlog.Models.Busines;
-using MyBlog.Models.DTO;
-using MyBlog.Models.Entity;
+using MyBlog.Domain.Business;
+using MyBlog.Domain.DTO;
 using MyBlog.Services.Auth;
-using MyBlog.Services.JWT;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
