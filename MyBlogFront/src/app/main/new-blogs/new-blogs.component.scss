@@ -14,3 +14,9 @@
 .bottom-article{
   padding: 15px 30px 23px;
 }
+
+@media all and (max-width: 991px){
+  .img-first{
+    max-width: 100% !important;
+  }
+}
