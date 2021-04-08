@@ -10,6 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class BlogsComponent implements OnInit {
     public blogs: Array<Blog> = [];
+    public isLoading = true;
 
     constructor(private blogService: BlogService, private toastrSerivce: ToastrService) {
     }
@@ -18,6 +19,7 @@ export class BlogsComponent implements OnInit {
         this.blogService.getBlogs().subscribe(t => {
             if (t.success) {
                 this.blogs = t.value;
+                this.isLoading = false;
             } else {
                 this.toastrSerivce.error('Some problem with server!');
             }
@@ -28,7 +30,7 @@ export class BlogsComponent implements OnInit {
     }
 
     public errorImageHandler(event: any): void {
-        console.log(typeof(event));
+        console.log(typeof (event));
         event.target.src = `../../assets/error-images/error-image.jpeg`;
     }
 
