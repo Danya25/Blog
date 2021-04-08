@@ -26,6 +26,8 @@ namespace MyBlog.Services.Blog.SaveBlog
             {
                 try
                 {
+                    request.Blog.DateOfCreation = DateTime.Now;
+
                     var blog = _mapper.Map<DAL.Entity.Blog>(request.Blog);
 
                     await _context.Blogs.AddAsync(blog);

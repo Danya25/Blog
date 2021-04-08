@@ -13,20 +13,21 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Services.Blog.GetBlogById
 {
-    public class GetBlogByIdHandler : IQueryHandler<GetBlogByIdQuery, DAL.Entity.Blog>
+    public class GetBlogByIdHandler : IQueryHandler<GetBlogByIdQuery, BlogModel>
     {
         private readonly ApplicationContext _dbContext;
-
-        public GetBlogByIdHandler(ApplicationContext dbContext)
+        private readonly IMapper _mapper;
+        public GetBlogByIdHandler(ApplicationContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<DAL.Entity.Blog> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
+        public async Task<BlogModel> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
         {
             var blog = await _dbContext.Blogs.FirstOrDefaultAsync(t => t.Id == request.Id);
 
-            return blog;
+            return _mapper.Map<BlogModel>(blog);
         }
     }
 }
