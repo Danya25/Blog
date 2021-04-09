@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Blog} from '../../models/blog';
 import {BlogService} from '../../services/blog.service';
@@ -12,7 +12,8 @@ import {ToastrService} from 'ngx-toastr';
 export class BlogComponent implements OnInit {
 
     private blogId: string;
-    public blog: Blog = null;
+    public blog: Blog = {} as Blog;
+    public isLoading = true;
 
     constructor(private route: Router, private blogService: BlogService, private toastrSerivce: ToastrService) {
     }
@@ -22,6 +23,7 @@ export class BlogComponent implements OnInit {
         this.blogService.getBlogById(this.blogId).subscribe(t => {
             if (t.success) {
                 this.blog = t.value;
+                this.isLoading = false;
             } else {
                 this.toastrSerivce.error('Some problem with server!');
             }
@@ -31,6 +33,10 @@ export class BlogComponent implements OnInit {
         });
     }
 
+    public errorImageHandler(event: any): void {
+        console.log(typeof (event));
+        event.target.src = `../../assets/error-images/error-image.jpeg`;
+    }
 
 
 }
