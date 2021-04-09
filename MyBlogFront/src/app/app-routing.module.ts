@@ -6,6 +6,8 @@ import {NotFoundComponent} from './main/not-found/not-found.component';
 import {BlogsComponent} from './main/blogs/blogs.component';
 import {BlogComponent} from './main/blog/blog.component';
 import {UnauthGuard} from './services/guards/unauth.guard';
+import {SpinLoaderComponent} from './views/spin-loader/spin-loader.component';
+import {SettingsComponent} from './main/settings/settings.component';
 
 const routes: Routes = [
     {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
@@ -13,9 +15,11 @@ const routes: Routes = [
     {
         path: '', component: AppLayoutComponent, children: [
             {path: '', component: BlogsComponent},
+            {path: 'settings', component: SettingsComponent},
             {component: BlogComponent, matcher: onlyNumbers}
         ]
     },
+    {path: 'test', component: SpinLoaderComponent},
     {path: '**', component: NotFoundComponent}
 ];
 
