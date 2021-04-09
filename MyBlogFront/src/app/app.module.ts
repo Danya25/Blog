@@ -21,6 +21,8 @@ import { WelcomeComponent } from './main/welcome/welcome.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import { NewBlogsComponent } from './main/new-blogs/new-blogs.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import { SpinLoaderComponent } from './views/spin-loader/spin-loader.component';
+import { SettingsComponent } from './main/settings/settings.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +38,8 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
         BlogCreatorComponent,
         WelcomeComponent,
         NewBlogsComponent,
+        SpinLoaderComponent,
+        SettingsComponent,
     ],
     imports: [
         BrowserModule,
