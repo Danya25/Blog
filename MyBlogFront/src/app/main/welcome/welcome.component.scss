@@ -1,4 +1,4 @@
-.welcome-wrapper {
+.wrapper {
   padding: 100px 0;
 }
 .welcome-text{
@@ -7,4 +7,17 @@
   font-size: 50px;
   line-height: 56px;
   color: #1F1F1F;
+}
+
+
+@media screen and(max-width: 991px) {
+  .welcome-text{
+    width: 100% !important;
+  }
+  .welcome-block{
+    width: 100% !important;
+  }
+  .welcome-wrapper{
+    justify-content: center !important;
+  }
 }
