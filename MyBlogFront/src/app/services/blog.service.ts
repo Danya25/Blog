@@ -19,4 +19,8 @@ export class BlogService {
     public getBlogs(): Observable<Answer<Array<Blog>>> {
         return this.http.get<Answer<Array<Blog>>>('api/Blog/GetBlogs');
     }
+
+    public getFiveNewestBlogs(): Observable<Answer<Array<Blog>>> {
+        return this.http.get<Answer<Array<Blog>>>('api/Blog/GetFiveNewestBlogs');
+    }
 }
