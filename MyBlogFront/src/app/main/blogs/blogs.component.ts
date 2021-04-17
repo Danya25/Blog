@@ -10,6 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class BlogsComponent implements OnInit {
     public blogs: Array<Blog> = [];
+    public newestBlogs: Array<Blog> = [];
     public isLoading = true;
 
     constructor(private blogService: BlogService, private toastrSerivce: ToastrService) {
@@ -22,10 +23,19 @@ export class BlogsComponent implements OnInit {
                 this.isLoading = false;
             } else {
                 this.toastrSerivce.error('Some problem with server!');
+                this.isLoading = false;
             }
         }, error => {
             console.log(error);
             this.toastrSerivce.error('Some problem with server!');
+            this.isLoading = false;
+        });
+        this.blogService.getFiveNewestBlogs().subscribe(t => {
+            if (t.success) {
+                this.newestBlogs = t.value;
+            } else {
+                this.toastrSerivce.error('Some problem with server!');
+            }
         });
     }
 

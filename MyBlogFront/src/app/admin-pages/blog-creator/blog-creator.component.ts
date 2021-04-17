@@ -1,6 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Sanitizer, SecurityContext} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BlogService} from '../../services/blog.service';
 import {AdminService} from '../../services/admin.service';
 import {Blog} from '../../models/blog';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
@@ -53,7 +52,7 @@ export class BlogCreatorComponent implements OnInit {
         ],
         uploadUrl: 'api/Photo',
         uploadWithCredentials: false,
-        sanitize: true,
+        sanitize: false,
         toolbarPosition: 'top',
         toolbarHiddenButtons: [
             ['bold', 'italic'],
@@ -68,6 +67,7 @@ export class BlogCreatorComponent implements OnInit {
         this.myForm = new FormGroup({
             title: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required]),
+            shortDescription: new FormControl('', [Validators.required]),
             photoUrl: new FormControl('')
         });
     }
@@ -77,11 +77,16 @@ export class BlogCreatorComponent implements OnInit {
             id: 0,
             title: this.myForm.get('title').value,
             description: this.myForm.get('description').value,
+            shortDescription: this.myForm.get('shortDescription').value,
             photoUrl: this.myForm.get('photoUrl').value
         };
         this.adminService.saveBlog(blog).subscribe(t => {
             console.log(t);
         });
+    }
+
+    public onChange(event): void {
+        console.log(this.myForm.value);
     }
 
 }
