@@ -19,10 +19,11 @@ export class BlogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.blogId = this.route.url.slice(-1);
+        this.blogId = this.route.url.split('/')[2];
         this.blogService.getBlogById(this.blogId).subscribe(t => {
             if (t.success) {
                 this.blog = t.value;
+                console.log(this.blog);
                 this.isLoading = false;
             } else {
                 this.toastrSerivce.error('Some problem with server!');
