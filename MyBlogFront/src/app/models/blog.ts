@@ -3,4 +3,5 @@ export interface Blog {
     title: string;
     photoUrl: string;
     description: string;
+    shortDescription: string;
 }
