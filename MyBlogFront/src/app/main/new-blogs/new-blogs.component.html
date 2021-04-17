@@ -6,90 +6,68 @@
             </div>
         </div>
         <div class="row">
-            <div class="d-flex flex-wrap" style="flex: 1">
-                <div class="col-lg-8 col-md-6 col-12" style="margin-bottom: 20px;">
-                    <article class="d-flex flex-column flex-wrap align-items-start" style="background-color: #FFFFFF">
-                        <div class="d-flex flex-wrap justify-content-between w-100">
-                            <span style="padding: 30px 30px 0; flex: 1">Title Blog</span>
-                            <img alt="post"
-                                 class="img-fluid img-first"
-                                 src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                                 style="width: 100%; max-width: 300px; height: 200px; max-height: 300px;">
-                        </div>
-                        <span class="p-3 w-100">Description</span>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
-                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start h-100" style="background-color: #FFFFFF">
-                        <img alt="post"
-                             class="img-fluid"
-                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                             style="width: 100%; height: 200px; max-height: 300px;">
-                        <span style="flex: 1;" class="p-3">Title Blog</span>
+            <div class="d-flex flex-wrap">
+                <div class="col-lg-8 col-md-6 col-12" style="margin-bottom: 20px;" *ngIf="newestBlogs.length > 0">
+                    <article class="d-flex flex-column flex-wrap align-items-start h-100"
+                             style="background-color: #FFFFFF">
+                        <section class="d-flex flex-wrap justify-content-between w-100">
+                            <a  [routerLink]="'/blog/'+newestBlogs[0]?.id" style="padding: 30px 30px 0; flex: 1">
+                                <span>{{newestBlogs[0]?.title}}</span>
+                            </a>
+                            <a [routerLink]="'/blog/'+newestBlogs[0]?.id">
+                                <img alt="post"
+                                     class="img-fluid img-first"
+                                     (error)="errorImageHandler($event)"
+                                     [src]="newestBlogs[0]?.photoUrl"
+                                     style="width: 100%; max-width: 300px; height: 200px; max-height: 300px;">
+                            </a>
+                        </section>
+                        <span class="p-3">{{newestBlogs[0]?.shortDescription}}</span>
                     </article>
                 </div>
 
-                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
-                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
-                        <img alt="post"
-                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                             style="width: 100%; height: 200px;">
-                        <span style="flex: 1;" class="p-3">Title Blog</span>
+                <div *ngFor="let blog of newestBlogs?.slice(1)" class="col-lg-4 col-md-6 col-12"
+                     style="margin-bottom: 20px;">
+                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start h-100"
+                             style="background-color: #FFFFFF">
+                        <a class="w-100" [routerLink]="'/blog/'+blog?.id">
+                            <img alt="post"
+                                 class="img-fluid"
+                                 (error)="errorImageHandler($event)"
+                                 [src]="blog?.photoUrl"
+                                 style="width: 100%; height: 200px; max-height: 300px;">
+                        </a>
+                        <a  [routerLink]="'/blog/'+blog?.id" class="p-3" style="flex: 1">
+                            <span>{{blog?.title}}</span>
+                        </a>
                     </article>
                 </div>
-                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
-                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
-                        <img alt="post"
-                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                             style="width: 100%; height: 200px;">
-                        <span style="flex: 1;" class="p-3">Title Blog</span>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
-                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
-                        <img alt="post"
-                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                             style="width: 100%; height: 200px;">
-                        <span style="flex: 1;" class="p-3">Title Blog</span>
-                    </article>
-                </div>
+
+                <!--                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
+                                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
+                                        <img alt="post"
+                                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
+                                             style="width: 100%; height: 200px;">
+                                        <span style="flex: 1;" class="p-3">Title Blog</span>
+                                    </article>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
+                                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
+                                        <img alt="post"
+                                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
+                                             style="width: 100%; height: 200px;">
+                                        <span style="flex: 1;" class="p-3">Title Blog</span>
+                                    </article>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 20px;">
+                                    <article class="d-flex flex-column flex-wrap justify-content-between align-items-start" style="background-color: #FFFFFF">
+                                        <img alt="post"
+                                             src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
+                                             style="width: 100%; height: 200px;">
+                                        <span style="flex: 1;" class="p-3">Title Blog</span>
+                                    </article>
+                                </div>-->
             </div>
         </div>
     </div>
 </div>
-
-
-<!--
-                <div class="col-lg-8 col-md-6 col-12">
-                    <article style="background-color: #eff6ff; height: 100%; width: 100%; border-radius: 6px;">
-                        <div class="row">
-                            <div class="col-12">
-                            <span class="title-blog"
-                                  style="width: calc(100% - 340px); display: inline-block; padding: 30px 30px 0;">Title Blog</span>
-                                <a>
-                                    <img alt="post"
-                                         src="https://images.indepth.dev/images/2021/03/How-we-make-our-base-components-more-flexible_-controllers-concept-in-Angular.png"
-                                         style="width: 340px; height: 200px; border-radius: 0 6px 0 6px;">
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <div class="bottom-article">
-                                    <span>Some Text</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-
-
-                <div class="col-lg-5 col-md-6 col-12">
-                    <div class="">
-                        <article style="background-color: #eff6ff; height: 100%; width: 100%; border-radius: 6px;">
-                            <a>
-                                <img style="height: 217px; width: 100%;" src="https://images.indepth.dev/images/2021/03/Learn-advanced-Angular-features_-build-the-Material-tree.jpeg" alt="post">
-                            </a>
-                        </article>
-                    </div>
-                </div>
-
--->
