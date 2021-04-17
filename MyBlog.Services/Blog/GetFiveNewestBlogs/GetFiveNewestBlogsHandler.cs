@@ -18,7 +18,7 @@ namespace MyBlog.Services.Blog.GetFiveNewestBlogs
 
         public async Task<List<DAL.Entity.Blog>> Handle(GetFiveNewestBlogsQuery request, CancellationToken cancellationToken)
         {
-            return await _dbContext.Blogs.OrderBy(t => t.DateOfCreation).Take(5).ToListAsync();
+            return await _dbContext.Blogs.OrderByDescending(t => t.DateOfCreation).Take(5).ToListAsync();
         }
     }
 }
