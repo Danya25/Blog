@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyBlog.Common
@@ -54,7 +56,7 @@ namespace MyBlog.Common
 
         public MethodResult<T> SetSuccess(T value, string message = "")
         {
-            _exception = (Exception)null;
+            _exception = null;
             Success = true;
             Message = message;
             Value = value;
@@ -103,6 +105,7 @@ namespace MyBlog.Common
             methodResult._exception = ex;
             methodResult.Success = false;
             methodResult.Message = message;
+            methodResult.Errors = TryGetErrors(ex);
             methodResult.ExceptionMessage = ex.Message;
             methodResult.GetFullExceptionMessage();
             return methodResult;
@@ -112,11 +115,23 @@ namespace MyBlog.Common
         {
             return new MethodResult<T>()
             {
-                _exception = (Exception)null,
+                _exception = null,
                 Success = true,
                 Message = message,
                 Value = value
             };
+        }
+
+        private static List<string> TryGetErrors(Exception ex)
+        {
+            if (ex is ValidationException newException)
+            {
+                return newException.Errors.Select(it => it.ErrorMessage).ToList();
+            }
+            else
+            {
+                return new List<string> { ex.ToString() };
+            }
         }
     }
 }
