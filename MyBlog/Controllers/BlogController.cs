@@ -21,15 +21,13 @@ namespace MyBlog.Controllers
     public class BlogController : ControllerBase
     {
         public ILogger<BlogController> _logger;
-        public IBlogService _blogService;
         public IMapper _mapper;
 
         private readonly IMediator _mediator;
 
-        public BlogController(ILogger<BlogController> logger, IBlogService blogService, IMapper mapper, IMediator mediator)
+        public BlogController(ILogger<BlogController> logger, IMapper mapper, IMediator mediator)
         {
             _logger = logger;
-            _blogService = blogService;
             _mapper = mapper;
             _mediator = mediator;
         }
@@ -105,16 +103,7 @@ namespace MyBlog.Controllers
         [HttpGet("DeleteBlogById/{id:int:min(0)}")]
         public async Task<MethodResult<bool>> DeleteBlogById(int id)
         {
-            try
-            {
-                var result = await _blogService.DeleteBlogById(id);
-                return result.ToSuccessMethodResult();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return ex.ToErrorMethodResult<bool>();
-            }
+            return true.ToSuccessMethodResult();
         }
     }
 }
