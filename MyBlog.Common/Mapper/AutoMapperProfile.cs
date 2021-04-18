@@ -13,6 +13,7 @@ namespace MyBlog.Common.Mapper
             CreateMap<BlogModel, Blog>();
             CreateMap<Blog, BlogModel>();
             CreateMap<BlogModel, BlogDTO>();
+            CreateMap<Blog, BlogDTO>();
 
             CreateMap<UserDTO, UserModel>();
             CreateMap<UserModel, User>();

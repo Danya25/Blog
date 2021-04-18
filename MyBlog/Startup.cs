@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using MyBlog.DAL;
 using MyBlog.DAL.Entity;
 using MyBlog.Services.Auth;
 using MyBlog.Services.Blog;
+using MyBlog.Services.Common;
 using MyBlog.Services.JWT;
 
 namespace MyBlog
@@ -37,12 +39,13 @@ namespace MyBlog
 
             var assembly = AppDomain.CurrentDomain.Load("MyBlog.Services");
             services.AddMediatR(assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddValidatorsFromAssembly(assembly);
 
             services.AddDbContext<ApplicationContext>(opt =>
             {
                 opt.UseSqlServer(connectionString);
             });
-
             services.AddCors(opt =>
             {
                 opt.AddPolicy("Cors", builder =>
@@ -53,22 +56,18 @@ namespace MyBlog
                     .AllowCredentials();
                 });
             });
-
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<ApplicationContext>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
-
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IBlogService, BlogService>();
-
             services.AddScoped<IJwtGenerator, JwtGenerator>(_ => new JwtGenerator(key));
 
             services.AddAuthentication(t =>
@@ -93,6 +92,7 @@ namespace MyBlog
             });
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBlog", Version = "v1" });
