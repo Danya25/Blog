@@ -14,7 +14,7 @@
                             <a  [routerLink]="'/blog/'+newestBlogs[0]?.id" style="padding: 30px 30px 0; flex: 1">
                                 <span>{{newestBlogs[0]?.title}}</span>
                             </a>
-                            <a [routerLink]="'/blog/'+newestBlogs[0]?.id">
+                            <a class="big-img-wrapper" [routerLink]="'/blog/'+newestBlogs[0]?.id">
                                 <img alt="post"
                                      class="img-fluid img-first"
                                      (error)="errorImageHandler($event)"
