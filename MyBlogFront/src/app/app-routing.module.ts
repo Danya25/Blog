@@ -8,10 +8,11 @@ import {BlogComponent} from './main/blog/blog.component';
 import {UnauthGuard} from './services/guards/unauth.guard';
 import {SpinLoaderComponent} from './views/spin-loader/spin-loader.component';
 import {SettingsComponent} from './main/settings/settings.component';
+import {RoleGuard} from './services/guards/role.guard';
 
 const routes: Routes = [
     {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
-    {path: 'admin', component: AdminLayoutComponent},
+    {path: 'admin', component: AdminLayoutComponent, canActivate: [RoleGuard] },
     {
         path: '', component: AppLayoutComponent, children: [
             {path: '', component: BlogsComponent},

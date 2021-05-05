@@ -3,26 +3,30 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './views/header/header.component';
 import {NavHeaderComponent} from './views/nav-header/nav-header.component';
 import {AppLayoutComponent} from './layouts/app-layout/app-layout.component';
 import {AuthModule} from './auth/auth.module';
-import { BlogsComponent } from './main/blogs/blogs.component';
-import { FooterComponent } from './views/footer/footer.component';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { NotFoundComponent } from './main/not-found/not-found.component';
-import { BlogComponent } from './main/blog/blog.component';
-import { BlogCreatorComponent } from './admin-pages/blog-creator/blog-creator.component';
+import {BlogsComponent} from './main/blogs/blogs.component';
+import {FooterComponent} from './views/footer/footer.component';
+import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
+import {NotFoundComponent} from './main/not-found/not-found.component';
+import {BlogComponent} from './main/blog/blog.component';
+import {BlogCreatorComponent} from './admin-pages/blog-creator/blog-creator.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { WelcomeComponent } from './main/welcome/welcome.component';
+import {WelcomeComponent} from './main/welcome/welcome.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
-import { NewBlogsComponent } from './main/new-blogs/new-blogs.component';
+import {NewBlogsComponent} from './main/new-blogs/new-blogs.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
-import { SpinLoaderComponent } from './views/spin-loader/spin-loader.component';
-import { SettingsComponent } from './main/settings/settings.component';
+import {SpinLoaderComponent} from './views/spin-loader/spin-loader.component';
+import {SettingsComponent} from './main/settings/settings.component';
+import {ErrorInterceptor} from './services/interceptors/error.interceptor';
+import {TokenInterceptor} from './services/interceptors/token.interceptor';
+import {RoleStore} from './session/stores/roles.store';
+import {RolesQuery} from './session/queries/roles.query';
 
 @NgModule({
     declarations: [
@@ -52,7 +56,13 @@ import { SettingsComponent } from './main/settings/settings.component';
         AngularEditorModule,
         BsDropdownModule.forRoot()
     ],
-    providers: [],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }],
     bootstrap: [AppComponent]
 })
 export class AppModule {

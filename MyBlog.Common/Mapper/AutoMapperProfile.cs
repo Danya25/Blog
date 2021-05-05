@@ -10,16 +10,17 @@ namespace MyBlog.Common.Mapper
         public AutoMapperProfile()
         {
             CreateMap<BlogDTO, BlogModel>();
-            CreateMap<BlogModel, Blog>();
-            CreateMap<Blog, BlogModel>();
+            CreateMap<BlogModel, Blog>().ReverseMap();
             CreateMap<BlogModel, BlogDTO>();
             CreateMap<Blog, BlogDTO>();
 
             CreateMap<UserDTO, UserModel>();
             CreateMap<UserModel, User>();
 
-            CreateMap<UserInfoDTO, UserInfoModel>();
-            CreateMap<UserInfoModel, UserInfoDTO>();
+            CreateMap<UserInfoDTO, UserInfoModel>().ReverseMap();
+
+            CreateMap<Role, RoleModel>().ReverseMap();
+            CreateMap<RoleModel, RoleDTO>().ReverseMap();
 
         }
     }

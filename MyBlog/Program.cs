@@ -21,8 +21,8 @@ namespace MyBlog
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<User>>();
-                    await DataSeed.InitializeAsync(userManager);
+                    var dbContext = services.GetRequiredService<ApplicationContext>();
+                    await DataSeed.InitializeAsync(dbContext);
                 }
                 catch (Exception ex)
                 {

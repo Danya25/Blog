@@ -1,8 +1,9 @@
-import {Component, OnInit, Sanitizer, SecurityContext} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AdminService} from '../../services/admin.service';
 import {Blog} from '../../models/blog';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {RolesQuery} from '../../session/queries/roles.query';
 
 @Component({
     selector: 'app-blog-creator',

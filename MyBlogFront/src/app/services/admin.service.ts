@@ -12,7 +12,7 @@ export class AdminService {
     }
 
     public saveBlog(blog: Blog): Observable<any> {
-        return this.http.post('api/Blog/SaveBlog', blog);
+        return this.http.post('api/Admin/SaveBlog', blog);
     }
 
 }

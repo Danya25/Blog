@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyBlog.Common.Mapper;
+using MyBlog.Common.Models;
 using MyBlog.DAL;
 using MyBlog.DAL.Entity;
 using MyBlog.Services.Auth;
@@ -35,7 +36,6 @@ namespace MyBlog
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var key = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
 
             var assembly = AppDomain.CurrentDomain.Load("MyBlog.Services");
             services.AddMediatR(assembly);
@@ -58,29 +58,27 @@ namespace MyBlog
             });
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            var builder = services.AddIdentityCore<User>();
-            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
-            identityBuilder.AddEntityFrameworkStores<ApplicationContext>();
-            identityBuilder.AddSignInManager<SignInManager<User>>();
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddSignInManager<SignInManager<User>>()
-                .AddDefaultTokenProviders();
+            var mySecurityKey = Configuration.GetSection("Key");
+            services.Configure<SymmetricKey>(opt =>
+            {
+                opt.Key = mySecurityKey.Value;
+            });
 
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IJwtGenerator, JwtGenerator>(_ => new JwtGenerator(key));
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             services.AddAuthentication(t =>
             {
-                t.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
+                t.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 t.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                t.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+                t.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(opt => {
+            }).AddJwtBearer(opt =>
+            {
                 opt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(mySecurityKey.Value)),
 
                     ValidateAudience = false,
                     ValidateIssuer = false,
@@ -95,7 +93,30 @@ namespace MyBlog
 
             services.AddSwaggerGen(c =>
             {
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. " +
+                                     "You should request JWT token using login endpoints.",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                };
+                c.AddSecurityDefinition("token", securityScheme);
+                var secRequir = new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "token"}
+                        },
+                        Array.Empty<string>()
+                    }
+                };
+                c.AddSecurityRequirement(secRequir);
+
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBlog", Version = "v1" });
+                c.EnableAnnotations();
+                c.DescribeAllParametersInCamelCase();
             });
 
         }
@@ -107,7 +128,11 @@ namespace MyBlog
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyBlog v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyBlog v1");
+                    c.DefaultModelsExpandDepth(0);
+                });
             }
 
             app.UseHttpsRedirection();

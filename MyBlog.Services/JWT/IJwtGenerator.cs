@@ -4,6 +4,6 @@ namespace MyBlog.Services.JWT
 {
     public interface IJwtGenerator
     {
-        string CreateToken(User user);
+        string CreateToken(DAL.Entity.User user);
     }
 }
