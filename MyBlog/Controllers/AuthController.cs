@@ -49,7 +49,17 @@ namespace MyBlog.Controllers
         [HttpPost("Registration")]
         public async Task<MethodResult<bool>> Registration(UserDTO user)
         {
-            throw new Exception();
+            try
+            {
+                var userModel = _mapper.Map<UserModel>(user);
+                var userInfo = await _authService.Registration(userModel);
+                return userInfo.ToSuccessMethodResult();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ex.ToErrorMethodResult<bool>();
+            }
         }
 
         [Authorize]
