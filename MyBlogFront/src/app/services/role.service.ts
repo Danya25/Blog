@@ -4,7 +4,7 @@ import {Roles, RoleStore} from '../session/stores/roles.store';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {RolesQuery} from '../session/queries/roles.query';
-import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, tap} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -12,16 +12,12 @@ import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 export class RoleService {
 
     constructor(private roleStore: RoleStore, private roleQuery: RolesQuery, private http: HttpClient) {
-        this.loadRoles();
-    }
-
-    private loadRoles(): void {
-        this.http.get<Answer<Roles[]>>('api/User/GetRoles').subscribe(response => {
-            this.roleStore.loadRoles(response.value);
-        });
     }
 
     public getRoles(): Observable<Roles[]> {
-        return this.roleQuery.allRoles$.pipe(filter(t => t.length !== 0), distinctUntilChanged());
+        return this.http.get<Answer<Roles[]>>('api/User/GetRoles').pipe(
+            map(result => result.value),
+            tap(roles => this.roleStore.loadRoles(roles))
+        );
     }
 }

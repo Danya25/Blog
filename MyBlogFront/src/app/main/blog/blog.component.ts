@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, SecurityContext} from '@angular/core';
 import {Router} from '@angular/router';
 import {Blog} from '../../models/blog';
 import {BlogService} from '../../services/blog.service';
 import {ToastrService} from 'ngx-toastr';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-blog',
@@ -15,13 +16,14 @@ export class BlogComponent implements OnInit {
     public blog: Blog = {} as Blog;
     public isLoading = true;
 
-    constructor(private route: Router, private blogService: BlogService, private toastrSerivce: ToastrService) {
+    constructor(private route: Router, private blogService: BlogService, private toastrSerivce: ToastrService, private domSanitizer: DomSanitizer) {
     }
 
     ngOnInit(): void {
         this.blogId = this.route.url.split('/')[2];
         this.blogService.getBlogById(this.blogId).subscribe(t => {
             if (t.success) {
+                this.domSanitizer.sanitize(SecurityContext.HTML, t.value.description);
                 this.blog = t.value;
                 console.log(this.blog);
                 this.isLoading = false;

@@ -54,6 +54,7 @@ namespace MyBlog.Services.Auth
         public async Task<bool> Registration(UserModel userModel)
         {
             var isUserExist = await _dbContext.Users.AnyAsync(t => t.Email == userModel.Email);
+
             if (isUserExist) throw new NotImplementedException("User already exists");
 
             var user = _mapper.Map<DAL.Entity.User>(userModel);
@@ -63,6 +64,7 @@ namespace MyBlog.Services.Auth
                 try
                 {
                     var hashedPassword = GenerateSaltedHash(8, userModel.Password);
+                    user.DisplayName = userModel.DisplayName;
                     user.Password = hashedPassword.Hash;
                     user.Salt = hashedPassword.Salt;
                     await _dbContext.Users.AddAsync(user);

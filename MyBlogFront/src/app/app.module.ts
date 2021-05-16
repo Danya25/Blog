@@ -13,7 +13,7 @@ import {FooterComponent} from './views/footer/footer.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NotFoundComponent} from './main/not-found/not-found.component';
 import {BlogComponent} from './main/blog/blog.component';
-import {BlogCreatorComponent} from './admin-pages/blog-creator/blog-creator.component';
+import {BlogCreatorComponent} from './admin/blog-creator/blog-creator.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,8 +25,12 @@ import {SpinLoaderComponent} from './views/spin-loader/spin-loader.component';
 import {SettingsComponent} from './main/settings/settings.component';
 import {ErrorInterceptor} from './services/interceptors/error.interceptor';
 import {TokenInterceptor} from './services/interceptors/token.interceptor';
-import {RoleStore} from './session/stores/roles.store';
-import {RolesQuery} from './session/queries/roles.query';
+import {JwtModule} from '@auth0/angular-jwt';
+import {AdminModule} from './admin/admin.module';
+
+export function tokenGetter(): string | null {
+    return localStorage.getItem('token');
+}
 
 @NgModule({
     declarations: [
@@ -39,7 +43,6 @@ import {RolesQuery} from './session/queries/roles.query';
         AdminLayoutComponent,
         NotFoundComponent,
         BlogComponent,
-        BlogCreatorComponent,
         WelcomeComponent,
         NewBlogsComponent,
         SpinLoaderComponent,
@@ -53,8 +56,13 @@ import {RolesQuery} from './session/queries/roles.query';
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
-        AngularEditorModule,
-        BsDropdownModule.forRoot()
+        AdminModule,
+        BsDropdownModule.forRoot(),
+        JwtModule.forRoot({
+            config: {
+                tokenGetter
+            }
+        })
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

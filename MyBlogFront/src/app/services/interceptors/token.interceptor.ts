@@ -17,7 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
             localStorage.clear();
             this.route.navigate(['/']);
         }
-        
+
         return next.handle(request);
     }
 }
