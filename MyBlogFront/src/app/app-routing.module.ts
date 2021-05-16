@@ -9,10 +9,15 @@ import {UnauthGuard} from './services/guards/unauth.guard';
 import {SpinLoaderComponent} from './views/spin-loader/spin-loader.component';
 import {SettingsComponent} from './main/settings/settings.component';
 import {RoleGuard} from './services/guards/role.guard';
+import {AuthGuard} from './services/guards/auth.guard';
+import {BlogCreatorComponent} from './admin/blog-creator/blog-creator.component';
 
 const routes: Routes = [
     {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
-    {path: 'admin', component: AdminLayoutComponent, canActivate: [RoleGuard] },
+    {
+        path: 'admin', component: AdminLayoutComponent, canActivate: [AuthGuard, RoleGuard], children: [
+            {path: '', component: BlogCreatorComponent}]
+    },
     {
         path: '', component: AppLayoutComponent, children: [
             {path: '', component: BlogsComponent},
@@ -20,6 +25,7 @@ const routes: Routes = [
             {component: BlogComponent, matcher: onlyNumbers}
         ]
     },
+
     {path: 'test', component: SpinLoaderComponent},
     {path: '**', component: NotFoundComponent}
 ];
