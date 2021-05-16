@@ -5,6 +5,7 @@ import {AuthService} from '../../services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {UserInfo} from '../../models/userInfo';
+import {RoleService} from '../../services/role.service';
 
 @Component({
     selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
 
     public myForm: FormGroup;
 
-    constructor(private authService: AuthService, private toastrService: ToastrService, private route: Router) {
+    constructor(private authService: AuthService, private toastrService: ToastrService, private route: Router, private roleService: RoleService) {
     }
 
     ngOnInit(): void {
@@ -36,17 +37,16 @@ export class LoginComponent implements OnInit {
                 this.toastrService.error(t.exceptionMessage);
                 return;
             }
-            this.setUserInfoIntoLocalStorage(t.value);
-
+            this.setUserInfo(t.value);
             this.toastrService.success('Log in was successful');
-            this.route.navigate(['']);
         });
     }
 
-    private setUserInfoIntoLocalStorage(user: UserInfo): void {
+    private setUserInfo(userInfo: UserInfo): void {
+        console.log('kek');
         localStorage.setItem(
-            'user', JSON.stringify({email: user.email, token: user.token, id: user.id, username: user.username}),
+            'user', JSON.stringify({email: userInfo.email, id: userInfo.id, username: userInfo.username}),
         );
+        localStorage.setItem('token', userInfo.token);
     }
-
 }
