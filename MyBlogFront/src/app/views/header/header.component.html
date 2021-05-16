@@ -32,11 +32,14 @@
                         <ng-template #user>
                             <span dropdown>
                                   <a (click)="false" aria-controls="basic-link-dropdown" dropdownToggle href
-                                     id="basic-link" style="font-weight: bold">{{userInfo.username}}</a>
+                                     id="basic-link" style="font-weight: bold">{{(userInfo$ | async).username}}</a>
                                   <ul *dropdownMenu aria-labelledby="basic-link"
                                       class="dropdown-menu dropdown-menu-right" id="basic-link-dropdown" role="menu">
                                     <li style="cursor: pointer">
-                                        <a routerLink="/settings" class="dropdown-item">Мой профиль</a>
+                                        <a class="dropdown-item" routerLink="/settings">Мой профиль</a>
+                                    </li>
+                                    <li style="cursor: pointer">
+                                        <a class="dropdown-item" (click)="exitFromAccount()">Выход</a>
                                     </li>
                                   </ul>
                             </span>

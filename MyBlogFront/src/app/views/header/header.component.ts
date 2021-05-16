@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {UserInfo} from '../../models/userInfo';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-header',
@@ -9,7 +10,7 @@ import {UserInfo} from '../../models/userInfo';
 })
 export class HeaderComponent implements OnInit {
 
-    public userInfo: UserInfo = this.userService.getUserInfo();
+    public userInfo$: Observable<UserInfo> = this.userService.getUserInfo();
 
 
     constructor(public userService: UserService) {
@@ -17,6 +18,10 @@ export class HeaderComponent implements OnInit {
 
 
     ngOnInit(): void {
+    }
+
+    public exitFromAccount(): void {
+        localStorage.clear();
     }
 
 }
