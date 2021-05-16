@@ -23,7 +23,7 @@ export class BlogService {
     public getFiveNewestBlogs(): Observable<Answer<Array<Blog>>> {
         return this.http.get<Answer<Array<Blog>>>('api/Blog/GetFiveNewestBlogs');
     }
-    public getBlogsWithPagination(currentCount: number, pageSize: number = 10){
+    public getBlogsWithPagination(currentCount: number, pageSize: number = 10): Observable<Answer<Array<Blog>>>{
         return this.http.get<Answer<Array<Blog>>>(`api/Blog/GetBlogsPagination?CurrentCount=${currentCount}&PageSize=${pageSize}`);
     }
 }
