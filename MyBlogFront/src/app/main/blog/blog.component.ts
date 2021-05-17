@@ -22,10 +22,9 @@ export class BlogComponent implements OnInit {
         const blogId = this.route.url.split('/')[2];
         this.blogService.getBlogById(blogId).subscribe(t => {
             if (t.success) {
-                let sanitizedDescription: SafeHtml = this.domSanitizer.bypassSecurityTrustHtml(t.value.description);
+                const sanitizedDescription: SafeHtml = this.domSanitizer.bypassSecurityTrustHtml(t.value.description);
                 this.blog = t.value;
                 this.blog.description = sanitizedDescription as string;
-                console.log(this.blog);
                 this.isLoading = false;
             } else {
                 this.toastrSerivce.error('Some problem with server!');
@@ -37,7 +36,6 @@ export class BlogComponent implements OnInit {
     }
 
     public errorImageHandler(event: any): void {
-        console.log(typeof (event));
         event.target.src = `../../assets/error-images/error-image.jpeg`;
     }
 
