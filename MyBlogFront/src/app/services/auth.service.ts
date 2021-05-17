@@ -5,7 +5,6 @@ import {Observable} from 'rxjs';
 import {Answer} from '../models/answer';
 import {UserInfo} from '../models/userInfo';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {tap} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'

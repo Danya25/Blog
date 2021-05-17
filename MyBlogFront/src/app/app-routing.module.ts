@@ -11,12 +11,17 @@ import {SettingsComponent} from './main/settings/settings.component';
 import {RoleGuard} from './services/guards/role.guard';
 import {AuthGuard} from './services/guards/auth.guard';
 import {BlogCreatorComponent} from './admin/blog-creator/blog-creator.component';
+import {Roles} from './models/roles';
 
 const routes: Routes = [
     {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
     {
-        path: 'admin', component: AdminLayoutComponent, canActivate: [AuthGuard, RoleGuard], children: [
-            {path: '', component: BlogCreatorComponent}]
+        path: 'admin', component: AdminLayoutComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {roles: [Roles.admin]},
+        children: [
+            {path: '', component: BlogCreatorComponent}
+        ]
     },
     {
         path: '', component: AppLayoutComponent, children: [
