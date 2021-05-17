@@ -1,11 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <div class="form-wrapper d-flex flex-row justify-content-center">
-                <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="d-flex flex-column">
+            <div class="login-wrapper d-flex flex-row justify-content-center">
+                <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="login-form d-flex flex-column">
                     <label>
                         Email:
-                        <input class="form-control" formControlName="email" type="text">
+                        <input class="login-form__email-input form-control" name="Email" placeholder="Email" formControlName="email" type="text">
                     </label>
                     <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
                         <span *ngIf="myForm.get('email').errors?.required">
@@ -17,14 +17,14 @@
                     </span>
                     <label>
                         Password:
-                        <input class="form-control" formControlName="password" type="password">
+                        <input class="login-form__password-input form-control" name="Password" placeholder="Password" formControlName="password" type="password">
                     </label>
                     <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
                         <span *ngIf="myForm.get('password').errors?.required">
                             Password required!
                         </span>
                     </span>
-                    <button type="submit" class="btn btn-outline-primary">
+                    <button class="login-form__btn-submit btn btn-outline-primary" type="submit">
                         Отправить
                     </button>
                 </form>
