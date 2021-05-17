@@ -1,9 +1,9 @@
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Blog} from '../../models/blog';
 import {BlogService} from '../../services/blog.service';
 import {ToastrService} from 'ngx-toastr';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-blog',
@@ -12,7 +12,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class BlogComponent implements OnInit {
 
-    private blogId: string;
     public blog: Blog = {} as Blog;
     public isLoading = true;
 
@@ -20,11 +19,12 @@ export class BlogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.blogId = this.route.url.split('/')[2];
-        this.blogService.getBlogById(this.blogId).subscribe(t => {
+        const blogId = this.route.url.split('/')[2];
+        this.blogService.getBlogById(blogId).subscribe(t => {
             if (t.success) {
-                this.domSanitizer.sanitize(SecurityContext.HTML, t.value.description);
+                let sanitizedDescription: SafeHtml = this.domSanitizer.bypassSecurityTrustHtml(t.value.description);
                 this.blog = t.value;
+                this.blog.description = sanitizedDescription as string;
                 console.log(this.blog);
                 this.isLoading = false;
             } else {
