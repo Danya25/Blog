@@ -12,6 +12,9 @@ namespace MyBlog.Domain.Business
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
         public string ShortDescription { get; set; }
+        public string Username { get; set; }
         public DateTime DateOfCreation { get; set; }
+        public bool IsLike { get; set; }
+        public int CountLikes { get; set; }
     }
 }
