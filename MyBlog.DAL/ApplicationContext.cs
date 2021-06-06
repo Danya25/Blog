@@ -11,7 +11,12 @@ namespace MyBlog.DAL
         {
             Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BlogLike>().HasKey(k => new { k.BlogId, k.UserId });
+        }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogLike> BlogLikes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
     }
