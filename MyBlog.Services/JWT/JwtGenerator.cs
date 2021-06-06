@@ -27,7 +27,7 @@ namespace MyBlog.Services.JWT
             var claims = new List<Claim>() 
             { 
                 new Claim("UserId", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.DisplayName)
+                new Claim(ClaimTypes.Name, user.DisplayName)
             };
             foreach(var role in user.Roles)
             {
