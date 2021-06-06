@@ -5,10 +5,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {HttpClientModule} from '@angular/common/http';
+import {AdminLayoutComponent} from '../layouts/admin-layout/admin-layout.component';
 
 
 @NgModule({
-    declarations: [BlogCreatorComponent],
+    declarations: [BlogCreatorComponent, AdminLayoutComponent],
+    exports: [
+        BlogCreatorComponent
+    ],
     imports: [
         CommonModule, BrowserAnimationsModule, ReactiveFormsModule, AngularEditorModule, HttpClientModule
     ]

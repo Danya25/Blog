@@ -80,7 +80,9 @@ export class BlogCreatorComponent implements OnInit {
             title: this.myForm.get('title').value,
             description: this.myForm.get('description').value,
             shortDescription: this.myForm.get('shortDescription').value,
-            photoUrl: this.myForm.get('photoUrl').value
+            photoUrl: this.myForm.get('photoUrl').value,
+            isLike: false,
+            countLikes: 0
         };
         this.adminService.saveBlog(blog).subscribe(t => {
             console.log(t);

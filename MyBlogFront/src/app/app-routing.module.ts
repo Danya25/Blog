@@ -19,9 +19,6 @@ const routes: Routes = [
         path: 'admin', component: AdminLayoutComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: {roles: [Roles.admin]},
-        children: [
-            {path: '', component: BlogCreatorComponent}
-        ]
     },
     {
         path: '', component: AppLayoutComponent, children: [
