@@ -13,9 +13,11 @@ using MyBlog.Services.Blog.GetBlogById;
 using MyBlog.Services.Blog.GetBlogs;
 using MyBlog.Services.Blog.GetBlogsWithPagination;
 using MyBlog.Services.Blog.GetFiveNewestBlogs;
+using MyBlog.Services.Blog.LikeBlog;
 using MyBlog.Services.Blog.SaveBlog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
@@ -43,7 +45,6 @@ namespace MyBlog.Controllers
             {
                 var blogs = await _mediator.Send(new GetBlogsQuery());
                 var blogsDto = _mapper.Map<List<BlogDTO>>(blogs);
-
                 return blogsDto.ToSuccessMethodResult();
             }
             catch (Exception ex)
@@ -75,7 +76,10 @@ namespace MyBlog.Controllers
         {
             try
             {
-                var blog = await _mediator.Send(new GetBlogByIdQuery(id));
+                var userIdClaim = User.Claims.FirstOrDefault(t => t.Type == "UserId")?.Value;
+                int? userId = userIdClaim is null ? null : int.Parse(User.Claims.First(t => t.Type == "UserId").Value);
+
+                var blog = await _mediator.Send(new GetBlogByIdQuery(id, userId));
                 var blogDto = _mapper.Map<BlogDTO>(blog);
 
                 return blogDto.ToSuccessMethodResult();
@@ -102,7 +106,23 @@ namespace MyBlog.Controllers
                 _logger.LogError(ex.Message);
                 return ex.ToErrorMethodResult<List<BlogDTO>>();
             }
-            throw new Exception();
+        }
+
+        [HttpPost("LikeBlog")]
+        [Authorize]
+        public async Task<MethodResult<bool>> LikeBlog(BlogLikeDTO likeInfo)
+        {
+            try
+            {
+                var userId = int.Parse(User.Claims.First(t => t.Type == "UserId").Value);
+                var result = await _mediator.Send(new LikeBlogCommand(userId, likeInfo.BlogId, likeInfo.LikeStatus));
+                return result.ToSuccessMethodResult();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ex.ToErrorMethodResult<bool>();
+            }
         }
 
         [HttpGet("DeleteBlogById/{id:int:min(0)}")]
