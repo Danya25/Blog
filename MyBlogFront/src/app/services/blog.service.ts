@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Blog} from '../models/blog';
 import {Answer} from '../models/answer';
+import {BlogLike} from '../models/blogLike';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,12 @@ export class BlogService {
     public getFiveNewestBlogs(): Observable<Answer<Array<Blog>>> {
         return this.http.get<Answer<Array<Blog>>>('api/Blog/GetFiveNewestBlogs');
     }
-    public getBlogsWithPagination(currentCount: number, pageSize: number = 10): Observable<Answer<Array<Blog>>>{
+
+    public getBlogsWithPagination(currentCount: number, pageSize: number = 10): Observable<Answer<Array<Blog>>> {
         return this.http.get<Answer<Array<Blog>>>(`api/Blog/GetBlogsPagination?CurrentCount=${currentCount}&PageSize=${pageSize}`);
+    }
+
+    public likeBlog(blogLike: BlogLike): Observable<Answer<boolean>> {
+        return this.http.post<Answer<boolean>>('api/Blog/LikeBlog', blogLike);
     }
 }
