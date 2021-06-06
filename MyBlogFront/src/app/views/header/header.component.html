@@ -18,10 +18,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-4 col-md-4 d-none d-md-block">
+                <div class="col-xl-4 col-md-4 d-md-block">
                     <div class="login_resiter">
                         <ng-container *ngIf="!userService.isLoggedIn(); else user">
-                            <p>
+                            <p class="text-center">
                                 <a routerLink="/auth/login">
                                     <i class="fa fa-user"></i>login
                                 </a>
