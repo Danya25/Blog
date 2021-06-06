@@ -1,4 +1,4 @@
-<div class="container">
+<!--<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="login-wrapper d-flex flex-row justify-content-center">
@@ -31,4 +31,42 @@
             </div>
         </div>
     </div>
+</div>-->
+
+<div class="container">
+    <div class="login-wrapper">
+        <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="login-form">
+            <span class="login-form-title">
+                Welcome
+            </span>
+            <span class="login-form-icon">
+                <i aria-hidden="true" class="fa fa-eercast fa-5x"></i>
+            </span>
+            <div class="wrap-input100 validate-input">
+                <input formControlName="email" class="input100" name="email"
+                       type="text">
+                <span class="focus-input100" data-placeholder="Email"></span>
+            </div>
+            <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
+                <span *ngIf="myForm.get('email').errors?.required">
+                    Email required!
+                </span>
+                <span *ngIf="myForm.get('email').errors?.email">
+                    Enter email please!
+                </span>
+            </span>
+
+            <div class="wrap-input100 validate-input">
+                <input formControlName="password" class="input100" name="pass" type="password">
+                <span class="focus-input100" data-placeholder="Password"></span>
+            </div>
+            <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
+                <span *ngIf="myForm.get('password').errors?.required">
+                    Password required!
+                </span>
+            </span>
+            <button type="submit" class="btn btn-primary submit">LOGIN</button>
+        </form>
+    </div>
 </div>
+

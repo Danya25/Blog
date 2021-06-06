@@ -18,6 +18,8 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.setAnimationInputs();
+
         this.myForm = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.email]),
             displayName: new FormControl('', [Validators.required]),
@@ -40,6 +42,21 @@ export class RegistrationComponent implements OnInit {
             this.toastrService.success('Registration was successful');
             this.route.navigate(['/auth/login']);
         });
+    }
+
+    private setAnimationInputs(): void {
+        const elems = document.getElementsByClassName('input100');
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].addEventListener('blur', (event) => {
+                const elem = elems[i];
+                // @ts-ignore
+                if (elem.value.trim() != '') {
+                    elems[i].classList.add('has-val');
+                } else {
+                    elems[i].classList.remove('has-val');
+                }
+            });
+        }
     }
 
 }

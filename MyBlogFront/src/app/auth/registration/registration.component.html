@@ -1,3 +1,4 @@
+<!--
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -39,5 +40,57 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
+-->
+
+<div class="container">
+    <div class="reg-wrapper">
+        <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="reg-form">
+            <span class="reg-form-title">
+                Welcome
+            </span>
+            <span class="reg-form-icon">
+                <i aria-hidden="true" class="fa fa-eercast fa-5x"></i>
+            </span>
+
+            <div class="wrap-input100">
+                <input class="input100" formControlName="email" name="email"
+                       type="text">
+                <span class="focus-input100" data-placeholder="Email"></span>
+            </div>
+            <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
+                    <span *ngIf="myForm.get('email').errors?.required">
+                        Email required!
+                    </span>
+                    <span *ngIf="myForm.get('email').errors?.email">
+                        Enter email please!
+                    </span>
+            </span>
+
+
+            <div class="wrap-input100">
+                <input class="input100" formControlName="displayName" name="username"
+                       type="text">
+                <span class="focus-input100" data-placeholder="Username"></span>
+            </div>
+            <span *ngIf="myForm.get('displayName').touched && myForm.get('displayName').invalid" class="text-danger">
+                <span *ngIf="myForm.get('displayName').errors?.required">
+                    Username required!
+                </span>
+            </span>
+
+            <div class="wrap-input100">
+                <input class="input100" formControlName="password" name="pass" type="password">
+                <span class="focus-input100" data-placeholder="Password"></span>
+            </div>
+            <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
+                <span *ngIf="myForm.get('password').errors?.required">
+                    Password required!
+                </span>
+            </span>
+
+            <button class="btn btn-primary submit" type="submit">REGISTRATION</button>
+        </form>
     </div>
 </div>
