@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace MyBlog.Common
@@ -130,7 +131,7 @@ namespace MyBlog.Common
             }
             else
             {
-                return new List<string> { ex.ToString() };
+                return new List<string>();
             }
         }
     }

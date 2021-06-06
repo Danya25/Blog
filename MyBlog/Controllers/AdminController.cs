@@ -9,7 +9,10 @@ using MyBlog.Domain.Business;
 using MyBlog.Domain.DTO;
 using MyBlog.Services.Blog.SaveBlog;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace MyBlog.Controllers
 {
@@ -34,8 +37,9 @@ namespace MyBlog.Controllers
         {
             try
             {
+                var username = User.Claims.First(t => t.Type == ClaimTypes.Name).Value;
                 var blogModel = _mapper.Map<BlogModel>(blog);
-                var result = await _mediator.Send(new SaveBlogCommand(blogModel));
+                var result = await _mediator.Send(new SaveBlogCommand(blogModel, username));
                 return result.ToSuccessMethodResult();
             }
             catch (Exception ex)

@@ -16,6 +16,8 @@ using MyBlog.Common.Mapper;
 using MyBlog.Common.Models;
 using MyBlog.DAL;
 using MyBlog.DAL.Entity;
+using MyBlog.Middleware;
+using MyBlog.Services;
 using MyBlog.Services.Auth;
 using MyBlog.Services.Blog;
 using MyBlog.Services.Common;
@@ -37,11 +39,6 @@ namespace MyBlog
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            var assembly = AppDomain.CurrentDomain.Load("MyBlog.Services");
-            services.AddMediatR(assembly);
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddValidatorsFromAssembly(assembly);
-
             services.AddDbContext<ApplicationContext>(opt =>
             {
                 opt.UseSqlServer(connectionString);
@@ -57,6 +54,8 @@ namespace MyBlog
                 });
             });
             services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddServices();
 
             var mySecurityKey = Configuration.GetSection("Key");
             services.Configure<SymmetricKey>(opt =>
@@ -102,7 +101,7 @@ namespace MyBlog
                     Scheme = "bearer"
                 };
                 c.AddSecurityDefinition("token", securityScheme);
-                var secRequir = new OpenApiSecurityRequirement
+                var securityRequirement = new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -112,7 +111,7 @@ namespace MyBlog
                         Array.Empty<string>()
                     }
                 };
-                c.AddSecurityRequirement(secRequir);
+                c.AddSecurityRequirement(securityRequirement);
 
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBlog", Version = "v1" });
                 c.EnableAnnotations();
@@ -135,6 +134,8 @@ namespace MyBlog
                 });
             }
 
+            //app.UseMiddleware<ApiExceptionHandlingMiddleware>();
+            
             app.UseHttpsRedirection();
 
             app.UseCors("Cors");

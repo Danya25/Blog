@@ -25,8 +25,9 @@ namespace MyBlog.Controllers
         {
             try
             {
-                if (file.Length == 0) throw new Exception("File is empty");
-                string filePath = Path.Combine("wwwroot", file.FileName);
+                if (file.Length == 0) 
+                    throw new Exception("File is empty");
+                var filePath = Path.Combine("wwwroot", file.FileName);
                 string base64;
                 using (var stream = new MemoryStream())
                 {
@@ -45,7 +46,7 @@ namespace MyBlog.Controllers
                     Status = true,
                     OriginalName = file.FileName,
                     GeneratedName = Path.GetFileNameWithoutExtension(file.FileName),
-                    Msg = "Succes uploaded",
+                    Msg = "Success uploaded",
                     ImageUrl = $"data:image/jpeg;base64,{base64}"
                 };
                 return fileInfo;
