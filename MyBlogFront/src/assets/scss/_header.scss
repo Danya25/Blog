@@ -81,8 +81,6 @@
                         padding: 22px 23px 22px 23px;
                         font-family: $font2;
                         position: relative;
-                        text-transform:capitalize;
-                        
                         @media #{$mid_device} {
                             padding: 22px 23px 22px 23px;
                             font-size: 14px;
@@ -213,7 +211,7 @@
         //     }
         //     &:hover{
         //         background: #131313;
-                
+
         //     }
         // }
     }
