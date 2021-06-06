@@ -25,13 +25,11 @@ export class LikeButtonComponent implements OnInit {
     }
 
     public onLike(): void {
-        console.log(1);
         if (!this.authService.IsAuthenticated()) {
             this.router.navigate(['/auth']);
             return;
         }
-        let likeStatus = this.likeStatus;
-        if (likeStatus) {
+        if (this.likeStatus) {
             this.countLikes -= 1;
         } else {
             this.countLikes += 1;
@@ -40,7 +38,7 @@ export class LikeButtonComponent implements OnInit {
 
         this.likeStatus = !this.likeStatus;
         const blogLike: BlogLike = {
-            likeStatus,
+            likeStatus: this.likeStatus,
             blogId: this.blogId
         };
         this.blogService.likeBlog(blogLike).pipe(
