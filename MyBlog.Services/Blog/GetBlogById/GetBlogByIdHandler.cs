@@ -25,9 +25,18 @@ namespace MyBlog.Services.Blog.GetBlogById
 
         public async Task<BlogModel> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
         {
-            var blog = await _dbContext.Blogs.FirstOrDefaultAsync(t => t.Id == request.Id);
+            var blog = await _dbContext.Blogs.FirstOrDefaultAsync(t => t.Id == request.BlogId);
+            if(blog is null)
+                return null;
 
-            return _mapper.Map<BlogModel>(blog);
+            var blogModel = _mapper.Map<BlogModel>(blog);
+
+            if(request.UserId is not null)
+                blogModel.IsLike = await _dbContext.BlogLikes.AnyAsync(t => t.BlogId == request.BlogId && t.UserId == request.UserId);
+
+            blogModel.CountLikes = await _dbContext.BlogLikes.CountAsync(t => t.BlogId == request.BlogId);
+
+            return blogModel;
         }
     }
 }

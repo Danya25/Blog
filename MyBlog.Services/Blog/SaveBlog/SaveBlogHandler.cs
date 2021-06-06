@@ -22,25 +22,25 @@ namespace MyBlog.Services.Blog.SaveBlog
 
         public async Task<bool> Handle(SaveBlogCommand request, CancellationToken cancellationToken)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            using (var transaction = await _context.Database.BeginTransactionAsync(cancellationToken))
             {
                 try
                 {
                     request.Blog.DateOfCreation = DateTime.Now;
+                    request.Blog.Username = request.Username;
 
                     var blog = _mapper.Map<DAL.Entity.Blog>(request.Blog);
 
-                    await _context.Blogs.AddAsync(blog);
-                    await _context.SaveChangesAsync();
+                    await _context.Blogs.AddAsync(blog, cancellationToken);
+                    await _context.SaveChangesAsync(cancellationToken);
 
-                    await transaction.CommitAsync();
+                    await transaction.CommitAsync(cancellationToken);
 
                     return true;
                 }
                 catch
                 {
                     await transaction.RollbackAsync();
-
                     return false;
                 }
             }

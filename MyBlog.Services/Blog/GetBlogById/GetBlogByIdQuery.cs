@@ -5,10 +5,12 @@ namespace MyBlog.Services.Blog.GetBlogById
 {
     public class GetBlogByIdQuery : IQuery<BlogModel>
     {
-        public int Id { get; }
-        public GetBlogByIdQuery(int id)
+        public int BlogId { get; }
+        public int? UserId { get; }
+        public GetBlogByIdQuery(int blogId, int? userId)
         {
-            Id = id;
+            BlogId = blogId;
+            UserId = userId;
         }
     }
 }

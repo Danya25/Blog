@@ -6,6 +6,7 @@ using MyBlog.DAL;
 using MyBlog.DAL.Entity;
 using MyBlog.DAL.Extensions;
 using MyBlog.Domain.Business;
+using MyBlog.Domain.Exceptions;
 using MyBlog.Services.JWT;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace MyBlog.Services.Auth
         {
             var user = await _dbContext.Users
                 .AddRoles()
-                .FirstOrDefaultAsync(t => t.Email == userModel.Email) ?? throw new Exception("User not found!");
+                .FirstOrDefaultAsync(t => t.Email == userModel.Email) ?? throw new UserNotFoundException("User not found!");
 
             var isCorrectPass = VerifyPassword(userModel.Password, user.Password, user.Salt);
             if (!isCorrectPass)
@@ -55,7 +56,8 @@ namespace MyBlog.Services.Auth
         {
             var isUserExist = await _dbContext.Users.AnyAsync(t => t.Email == userModel.Email);
 
-            if (isUserExist) throw new NotImplementedException("User already exists");
+            if (isUserExist) 
+                throw new UserAlreadyExistsException("User already exists");
 
             var user = _mapper.Map<DAL.Entity.User>(userModel);
 
@@ -70,6 +72,7 @@ namespace MyBlog.Services.Auth
                     await _dbContext.Users.AddAsync(user);
                     transaction.Commit();
                     await _dbContext.SaveChangesAsync();
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -77,7 +80,6 @@ namespace MyBlog.Services.Auth
                     return false;
                 }
             }
-            return true;
         }
 
         private HashSalt GenerateSaltedHash(int size, string password)
