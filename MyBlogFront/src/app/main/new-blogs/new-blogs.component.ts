@@ -18,6 +18,6 @@ export class NewBlogsComponent implements OnInit {
 
     public errorImageHandler(event: any): void {
         console.log(typeof (event));
-        event.target.src = `../../assets/error-images/preview-error.jpg`;
+        event.target.src = `../../assets/error-images/error-image.jpeg`;
     }
 }
