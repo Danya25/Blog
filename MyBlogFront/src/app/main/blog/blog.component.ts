@@ -15,13 +15,20 @@ export class BlogComponent implements OnInit {
     public blog: Blog = {} as Blog;
     public isLoading = true;
 
-    constructor(private route: Router, private blogService: BlogService, private toastrSerivce: ToastrService, private domSanitizer: DomSanitizer) {
+    constructor(private router: Router,
+                private blogService: BlogService,
+                private toastrSerivce: ToastrService,
+                private domSanitizer: DomSanitizer) {
     }
 
     ngOnInit(): void {
-        const blogId = this.route.url.split('/')[2];
+        const blogId = this.router.url.split('/')[2];
         this.blogService.getBlogById(blogId).subscribe(t => {
             if (t.success) {
+                if (t.value === null) {
+                    this.router.navigate(['/']);
+                    return;
+                }
                 const sanitizedDescription: SafeHtml = this.domSanitizer.bypassSecurityTrustHtml(t.value.description);
                 this.blog = t.value;
                 this.blog.description = sanitizedDescription as string;
@@ -39,5 +46,8 @@ export class BlogComponent implements OnInit {
         event.target.src = `../../assets/error-images/error-image.jpeg`;
     }
 
+    public onLikeChange(event: number): void {
+        this.blog.countLikes = event;
+    }
 
 }
