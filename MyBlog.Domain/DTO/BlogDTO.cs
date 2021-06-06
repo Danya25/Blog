@@ -16,5 +16,9 @@ namespace MyBlog.Domain.DTO
         [Required]
         public string ShortDescription { get; set; }
         public string PhotoUrl { get; set; }
+        public bool IsLike { get; set; }
+        public int CountLikes { get; set; }
+        
+        public string Username { get; set; }
     }
 }
