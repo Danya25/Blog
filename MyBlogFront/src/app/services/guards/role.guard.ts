@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
-import {RoleService} from '../role.service';
 import {RolesQuery} from '../../session/queries/roles.query';
 import {AuthService} from '../auth.service';
 import {map} from 'rxjs/operators';
@@ -11,7 +10,7 @@ import {map} from 'rxjs/operators';
 })
 export class RoleGuard implements CanActivate {
 
-    constructor(private roleService: RoleService, private roleQuery: RolesQuery, private route: Router, private auth: AuthService) {
+    constructor(private roleQuery: RolesQuery, private route: Router, private auth: AuthService) {
 
     }
 
@@ -21,12 +20,8 @@ export class RoleGuard implements CanActivate {
         let dataRoles = route.data.roles as Array<string>;
 
         if (this.auth.IsAuthenticated()) {
-            return this.roleService.getRoles().pipe(map((roles) => {
-                if (roles.filter(role => dataRoles.indexOf(role.name) !== -1).length > 0) {
-                    return true;
-                }
-                this.route.navigate(['/']);
-                return false;
+            return this.roleQuery.allRoles$.pipe(map(roles => {
+                return roles.filter(role => dataRoles.indexOf(role.name) !== -1).length > 0;
             }));
         } else {
             return false;

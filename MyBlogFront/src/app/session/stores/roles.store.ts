@@ -1,4 +1,4 @@
-import {Store, StoreConfig} from '@datorama/akita';
+import {persistState, Store, StoreConfig} from '@datorama/akita';
 import {Injectable} from '@angular/core';
 
 export interface Roles {
@@ -13,15 +13,15 @@ export function createInitialState(): RoleState {
     return {roles: []};
 }
 
-@StoreConfig({name: 'roles'})
 @Injectable({ providedIn: 'root' })
-export class RoleStore extends Store<RoleState> {
+@StoreConfig({name: 'roles'})
 
+export class RoleStore extends Store<RoleState> {
     constructor() {
         super(createInitialState());
     }
 
-    public loadRoles(roles: Roles[]): void {
+    public updateRoles(roles: Roles[]): void {
         this.update({roles});
     }
 }

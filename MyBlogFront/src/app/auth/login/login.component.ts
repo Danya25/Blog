@@ -41,7 +41,10 @@ export class LoginComponent implements OnInit {
                 return;
             }
             this.setUserInfo(t.value);
+            this.roleService.loadRoles();
+
             this.toastrService.success('Log in was successful');
+            this.route.navigate(['']);
         });
     }
 
