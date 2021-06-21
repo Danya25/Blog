@@ -1,4 +1,45 @@
-version: '3.8'
-    db:
-        image: mysql
+version: '3.9'
+
+services:
+  
+  myblog:
+    image: ratatata/myblog:latest
+    build:
+      context: .
+      dockerfile: MyBlog/Dockerfile
+    ports:
+      - 8000:81
+    depends_on:
+      - db
+    networks:
+      - host_network
         
+  myblog-ui:
+    image: ratatata/myblog-ui:latest
+    build:
+      context: MyBlogFront
+      dockerfile: Dockerfile
+    ports: 
+      - "4200:4200"
+    networks:
+      - host_network
+    
+
+  db:
+    image: microsoft/mssql-server-linux:latest
+    environment:
+      SA_PASSWORD: "9AgvgKK2ECbG"
+      ACCEPT_EULA: "Y"
+    networks:
+      - host_network
+    volumes:
+      - mssql_volume:/var/opt/mssql
+  
+networks:
+  host_network:
+    name: 'host_network'
+    driver: bridge
+
+volumes:
+  mssql_volume:
+    name: 'myblog_mssql_volume'

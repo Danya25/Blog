@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  myblog:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:81
+    ports:
+      - "81"
