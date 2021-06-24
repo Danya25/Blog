@@ -18,6 +18,11 @@ export class TokenInterceptor implements HttpInterceptor {
             this.route.navigate(['/']);
         }
 
+        request = request.clone({
+            setHeaders: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return next.handle(request);
     }
 }
