@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Answer} from '../models/answer';
 import {UserInfo} from '../models/userInfo';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,11 +16,11 @@ export class AuthService {
     }
 
     public login(user: User): Observable<Answer<UserInfo>> {
-        return this.http.post<Answer<UserInfo>>('api/Auth/Login', user);
+        return this.http.post<Answer<UserInfo>>(environment.apiUrl + 'api/Auth/Login', user);
     }
 
     public registration(user: User): Observable<Answer<any>> {
-        return this.http.post<Answer<any>>('api/Auth/Registration', user);
+        return this.http.post<Answer<any>>(environment.apiUrl + 'api/Auth/Registration', user);
     }
 
 

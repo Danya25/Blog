@@ -4,6 +4,7 @@ import {Roles, RoleStore} from '../session/stores/roles.store';
 import {HttpClient} from '@angular/common/http';
 import {RolesQuery} from '../session/queries/roles.query';
 import {map, tap} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class RoleService {
     }
 
     public loadRoles(): void {
-        this.http.get<Answer<Roles[]>>('api/User/GetRoles').pipe(
+        this.http.get<Answer<Roles[]>>(environment.apiUrl + 'api/User/GetRoles').pipe(
             map(result => result.value)).subscribe(roles => this.roleStore.updateRoles(roles));
     }
 }
