@@ -24,7 +24,9 @@ import {ErrorInterceptor} from './services/interceptors/error.interceptor';
 import {TokenInterceptor} from './services/interceptors/token.interceptor';
 import {JwtModule} from '@auth0/angular-jwt';
 import {AdminModule} from './admin/admin.module';
-import { LikeButtonComponent } from './views/like-button/like-button.component';
+import {SharedModule} from './shared/shared.module';
+import { SupportComponent } from './main/support/support.component';
+import { NewsletterComponent } from './main/newsletter/newsletter.component';
 
 export function tokenGetter(): string | null {
     return localStorage.getItem('token');
@@ -44,7 +46,8 @@ export function tokenGetter(): string | null {
         NewBlogsComponent,
         SpinLoaderComponent,
         SettingsComponent,
-        LikeButtonComponent,
+        SupportComponent,
+        NewsletterComponent,
     ],
     imports: [
         BrowserModule,
@@ -55,6 +58,7 @@ export function tokenGetter(): string | null {
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
         AdminModule,
+        SharedModule,
         BsDropdownModule.forRoot(),
         JwtModule.forRoot({
             config: {

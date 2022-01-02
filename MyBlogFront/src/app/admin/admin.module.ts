@@ -6,16 +6,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {HttpClientModule} from '@angular/common/http';
 import {AdminLayoutComponent} from '../layouts/admin-layout/admin-layout.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 @NgModule({
-    declarations: [BlogCreatorComponent, AdminLayoutComponent],
-    exports: [
-        BlogCreatorComponent
-    ],
-    imports: [
-        CommonModule, BrowserAnimationsModule, ReactiveFormsModule, AngularEditorModule, HttpClientModule
-    ]
+    declarations: [BlogCreatorComponent, AdminLayoutComponent, UserListComponent],
+    exports: [],
+    imports: [CommonModule, BrowserAnimationsModule, ReactiveFormsModule, AngularEditorModule, HttpClientModule]
 })
 export class AdminModule {
 }

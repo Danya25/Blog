@@ -6,7 +6,6 @@ using MyBlog.Common;
 using MyBlog.Domain.Business;
 using MyBlog.Domain.DTO;
 using MyBlog.Services.Auth;
-using System;
 using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
@@ -17,56 +16,33 @@ namespace MyBlog.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
 
-        public AuthController(IAuthService authService, IMapper mapper, ILogger<AuthController> logger)
+        public AuthController(IAuthService authService, IMapper mapper)
         {
             _authService = authService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<MethodResult<UserInfoDTO>> Login(UserDTO user)
+        public async Task<MethodResult<UserInfoDTO>> Login(UserLoginDTO user)
         {
-            try
-            {
-                var userModel = _mapper.Map<UserModel>(user);
-                var userInfo = await _authService.Login(userModel);
-                var userInfoDto = _mapper.Map<UserInfoDTO>(userInfo);
+            var userModel = _mapper.Map<UserModel>(user);
+            var userInfo = await _authService.Login(userModel);
+            var userInfoDto = _mapper.Map<UserInfoDTO>(userInfo);
 
-                return userInfoDto.ToSuccessMethodResult();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return ex.ToErrorMethodResult<UserInfoDTO>();
-            }
+            return userInfoDto.ToSuccessMethodResult();
         }
 
         [AllowAnonymous]
         [HttpPost("Registration")]
-        public async Task<MethodResult<bool>> Registration(UserDTO user)
+        public async Task<MethodResult<bool>> Registration(UserRegistrationDTO user)
         {
-            try
-            {
-                var userModel = _mapper.Map<UserModel>(user);
-                var userInfo = await _authService.Registration(userModel);
-                return userInfo.ToSuccessMethodResult();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return ex.ToErrorMethodResult<bool>();
-            }
-        }
 
-        [Authorize]
-        [HttpGet]
-        public async Task Get()
-        {
-            var test = User.Identity.IsAuthenticated;
+            var userModel = _mapper.Map<UserModel>(user);
+            var userInfo = await _authService.Registration(userModel);
+
+            return userInfo.ToSuccessMethodResult();
         }
     }
 }

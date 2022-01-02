@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
     }
 
     private setUserInfo(userInfo: UserInfo): void {
-        console.log('kek');
         localStorage.setItem(
             'user', JSON.stringify({email: userInfo.email, id: userInfo.id, username: userInfo.username}),
         );

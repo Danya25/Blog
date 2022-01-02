@@ -1,6 +1,6 @@
 ﻿namespace MyBlog.Domain.Business
 {
-    public class PhotoInformation
+    public class PhotoInfoModel
     {
         
     }

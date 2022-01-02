@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Text;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +12,9 @@ using Microsoft.OpenApi.Models;
 using MyBlog.Common.Mapper;
 using MyBlog.Common.Models;
 using MyBlog.DAL;
-using MyBlog.DAL.Entity;
 using MyBlog.Middleware;
 using MyBlog.Services;
 using MyBlog.Services.Auth;
-using MyBlog.Services.Blog;
-using MyBlog.Services.Common;
 using MyBlog.Services.JWT;
 
 namespace MyBlog
@@ -118,6 +112,7 @@ namespace MyBlog
                 c.DescribeAllParametersInCamelCase();
             });
 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,8 +128,6 @@ namespace MyBlog
                     c.DefaultModelsExpandDepth(0);
                 });
             }
-
-            //app.UseMiddleware<ApiExceptionHandlingMiddleware>();
             
             app.UseHttpsRedirection();
 
@@ -144,6 +137,7 @@ namespace MyBlog
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<ApiExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,38 +1,3 @@
-<!--<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="login-wrapper d-flex flex-row justify-content-center">
-                <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="login-form d-flex flex-column">
-                    <label>
-                        Email:
-                        <input class="login-form__email-input form-control" name="Email" placeholder="Email" formControlName="email" type="text">
-                    </label>
-                    <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
-                        <span *ngIf="myForm.get('email').errors?.required">
-                            Email required!
-                        </span>
-                        <span *ngIf="myForm.get('email').errors?.email">
-                            Enter email please!
-                        </span>
-                    </span>
-                    <label>
-                        Password:
-                        <input class="login-form__password-input form-control" name="Password" placeholder="Password" formControlName="password" type="password">
-                    </label>
-                    <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
-                        <span *ngIf="myForm.get('password').errors?.required">
-                            Password required!
-                        </span>
-                    </span>
-                    <button class="login-form__btn-submit btn btn-outline-primary" type="submit">
-                        Отправить
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>-->
-
 <div class="container">
     <div class="login-wrapper">
         <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="login-form">
@@ -43,29 +8,29 @@
                 <i aria-hidden="true" class="fa fa-eercast fa-5x"></i>
             </span>
             <div class="wrap-input100 validate-input">
-                <input formControlName="email" class="input100" name="email"
+                <input class="input100" formControlName="email" name="email"
                        type="text">
                 <span class="focus-input100" data-placeholder="Email"></span>
+                <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
+                    <span *ngIf="myForm.get('email').errors?.required">
+                        Email required!
+                    </span>
+                    <span *ngIf="myForm.get('email').errors?.email">
+                        Enter email please!
+                    </span>
+                </span>
             </div>
-            <span *ngIf="myForm.get('email').touched && myForm.get('email').invalid" class="text-danger">
-                <span *ngIf="myForm.get('email').errors?.required">
-                    Email required!
-                </span>
-                <span *ngIf="myForm.get('email').errors?.email">
-                    Enter email please!
-                </span>
-            </span>
 
             <div class="wrap-input100 validate-input">
-                <input formControlName="password" class="input100" name="pass" type="password">
+                <input class="input100" formControlName="password" name="pass" type="password">
                 <span class="focus-input100" data-placeholder="Password"></span>
-            </div>
-            <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
+                <span *ngIf="myForm.get('password').touched && myForm.get('password').invalid" class="text-danger">
                 <span *ngIf="myForm.get('password').errors?.required">
                     Password required!
                 </span>
             </span>
-            <button type="submit" class="btn btn-primary submit">LOGIN</button>
+            </div>
+            <button class="btn btn-primary submit" type="submit" [disabled]="!myForm.valid">LOGIN</button>
         </form>
     </div>
 </div>
