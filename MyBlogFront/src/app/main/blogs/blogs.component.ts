@@ -42,7 +42,6 @@ export class BlogsComponent implements OnInit {
     }
 
     public errorImageHandler(event: any): void {
-        console.log(typeof (event));
         event.target.src = `../../assets/error-images/error-image.jpeg`;
     }
 

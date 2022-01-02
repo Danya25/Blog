@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using MyBlog.Common.Models;
 using MyBlog.DAL;
-using MyBlog.DAL.Entity;
 using MyBlog.DAL.Extensions;
 using MyBlog.Domain.Business;
 using MyBlog.Domain.Exceptions;
 using MyBlog.Services.JWT;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -19,8 +15,9 @@ namespace MyBlog.Services.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly IJwtGenerator _jwtGenerator;
         private readonly ApplicationContext _dbContext;
+
+        private readonly IJwtGenerator _jwtGenerator;
         private readonly IMapper _mapper;
 
         public AuthService(IJwtGenerator jwtGenerator, ApplicationContext dbContext, IMapper mapper)
@@ -38,14 +35,11 @@ namespace MyBlog.Services.Auth
 
             var isCorrectPass = VerifyPassword(userModel.Password, user.Password, user.Salt);
             if (!isCorrectPass)
-                throw new Exception("Password incorrect");
-
-
+                throw new ValidationException("Password incorrect");
 
             var userInfo = new UserInfoModel
             {
                 Email = user.Email,
-                Id = 0,
                 Token = _jwtGenerator.CreateToken(user),
                 Username = user.DisplayName,
             };
@@ -69,9 +63,12 @@ namespace MyBlog.Services.Auth
                     user.DisplayName = userModel.DisplayName;
                     user.Password = hashedPassword.Hash;
                     user.Salt = hashedPassword.Salt;
+
+
                     await _dbContext.Users.AddAsync(user);
-                    transaction.Commit();
+                    await transaction.CommitAsync();
                     await _dbContext.SaveChangesAsync();
+
                     return true;
                 }
                 catch (Exception ex)

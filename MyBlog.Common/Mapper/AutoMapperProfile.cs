@@ -14,7 +14,8 @@ namespace MyBlog.Common.Mapper
             CreateMap<BlogModel, BlogDTO>();
             CreateMap<Blog, BlogDTO>();
 
-            CreateMap<UserDTO, UserModel>();
+            CreateMap<UserRegistrationDTO, UserModel>();
+            CreateMap<UserLoginDTO, UserModel>();
             CreateMap<UserModel, User>();
 
             CreateMap<UserInfoDTO, UserInfoModel>().ReverseMap();

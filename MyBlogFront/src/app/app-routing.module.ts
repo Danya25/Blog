@@ -12,6 +12,7 @@ import {RoleGuard} from './services/guards/role.guard';
 import {AuthGuard} from './services/guards/auth.guard';
 import {BlogCreatorComponent} from './admin/blog-creator/blog-creator.component';
 import {Roles} from './models/roles';
+import {SupportComponent} from './main/support/support.component';
 
 const routes: Routes = [
     {path: 'auth', canActivate: [UnauthGuard], loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
@@ -19,6 +20,9 @@ const routes: Routes = [
         path: 'admin', component: AdminLayoutComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: {roles: [Roles.admin]},
+    },
+    {
+        path: 'support', component: SupportComponent, canActivate: [AuthGuard]
     },
     {
         path: '', component: AppLayoutComponent, children: [

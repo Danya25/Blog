@@ -23,7 +23,7 @@ namespace MyBlog.Services.Blog.GetBlogsWithPagination
         }
         public async Task<List<BlogModel>> Handle(GetBlogsWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            var blogs = await _appContext.Blogs.Skip(request.CurrentCount).Take(request.PageSize).ToListAsync();
+            var blogs = await _appContext.Blogs.OrderBy(t=> t.DateOfCreation).Skip(request.CurrentCount).Take(request.PageSize).ToListAsync();
             var blogsModel = _mapper.Map<List<BlogModel>>(blogs);
             return blogsModel;
         }

@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyBlog.Common;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyBlog.Controllers
@@ -27,6 +24,7 @@ namespace MyBlog.Controllers
             {
                 if (file.Length == 0) 
                     throw new Exception("File is empty");
+                
                 var filePath = Path.Combine("wwwroot", file.FileName);
                 string base64;
                 using (var stream = new MemoryStream())
@@ -38,9 +36,6 @@ namespace MyBlog.Controllers
                 {
                     await file.CopyToAsync(fileStream);
                 }
-                var rootPath = Path.GetFullPath(filePath);
-                /*                $"data:image/{file.FileName.Split('.')[1]},{base64}"
-                */
                 var fileInfo = new FileModel
                 {
                     Status = true,
