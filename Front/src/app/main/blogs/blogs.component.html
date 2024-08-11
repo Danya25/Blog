@@ -1,0 +1,36 @@
+<app-welcome></app-welcome>
+
+<app-new-blogs [newestBlogs]="newestBlogs"></app-new-blogs>
+
+<div class="container">
+
+    <div class="blogs-title row">
+        <div class="col-12">
+            <h1>All Articles</h1>
+            <hr style="height: 1px; background-color: #3B5998">
+        </div>
+    </div>
+
+    <ng-container *ngIf="isLoading;">
+        <app-spin-loader></app-spin-loader>
+    </ng-container>
+
+    <div class="blogs-wrapper d-flex flex-wrap row">
+        <div class="col-lg-6 col-md-6 col-12" style="text-align: center; margin-bottom: 40px;"
+             *ngFor="let blog of blogs">
+            <article class="blog d-flex flex-column justify-content-between">
+                <a class="h-100" [routerLink]="'/blog/' + blog.id">
+                    <div class="img-wrapper">
+                        <img class="blog-image" [src]="blog.photoUrl" (error)="errorImageHandler($event)"
+                             alt="blog image">
+                    </div>
+                    <div class="title-wrapper text-center">
+                        <span class="blog-title">{{blog.title}}</span>
+                    </div>
+                </a>
+            </article>
+        </div>
+        <button class="btn btn-outline-dark w-100" style="max-height: 50px;" [ngClass]="{'hide-load_more-btn': isFullLoaded}" (click)="loadMoreBlogs()" *ngIf="blogs.length > 0">Load More</button>
+    </div>
+    <app-newsletter></app-newsletter>
+</div>

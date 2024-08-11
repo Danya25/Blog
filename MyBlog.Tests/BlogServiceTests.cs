@@ -13,7 +13,6 @@ namespace MyBlog.Tests
     {
         public BlogServiceTests()
         {
-            var host = Host
         }
 
         [Fact]

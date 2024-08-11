@@ -1,0 +1,33 @@
+.title-blog{
+  font-family: Montserrat-Bold,Arial,Helvetica,sans-serif;
+  color: #000000;
+  font-size: 30px;
+  line-height: 130%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wrapper{
+  background-color: #000000;
+  padding: 50px;
+  margin-bottom: 50px;
+}
+.bottom-article{
+  padding: 15px 30px 23px;
+}
+
+.article-title{
+  font-family: "Crimson Text", serif;
+  color: #1F1F1F;
+  text-transform: capitalize;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+@media all and (max-width: 991px){
+  .img-first{
+    max-width: 100% !important;
+  }
+  .big-img-wrapper{
+    width: 100%;
+  }
+}

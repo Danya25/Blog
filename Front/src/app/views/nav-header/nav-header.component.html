@@ -1,0 +1,33 @@
+<div class="header-area">
+    <div id="sticky-header" class="main-header-area white-bg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-7 col-lg-7">
+                    <div class="main-menu  d-lg-block">
+                        <nav>
+                            <ul id="navigation">
+                                <li><a routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
+                                <li><a routerLink="/admin" [routerLinkActive]="['active']">Admin</a></li>
+                                <li><a href="#">pages <i class="ti-angle-down"></i></a>
+                                    <ul class="submenu">
+                                        <li><a>elements</a></li>
+                                        <li><a>single-blog</a></li>
+                                    </ul>
+                                </li>
+                                <li><a routerLink="/support">Support</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5">
+                    <div class="get_serch">
+                        <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mobile_menu d-block d-lg-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

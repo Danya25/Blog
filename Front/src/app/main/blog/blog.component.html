@@ -1,0 +1,23 @@
+<div class="container">
+    <ng-container *ngIf="isLoading; else blogMarkup">
+        <app-spin-loader></app-spin-loader>
+    </ng-container>
+
+    <ng-template #blogMarkup>
+        <div class="blog-title-wrapper my-4">
+            <h1 class="blog-title">{{blog.title}}</h1>
+        </div>
+        <span>
+        <b>Добавил пользователь {{blog.username}}</b>
+    </span>
+        <div class="blog-image">
+            <img (error)="errorImageHandler($event)" [src]='blog.photoUrl' alt="Blog image" style="width: 100%; max-height: 500px; border-radius: 10px;">
+        </div>
+        <div class="blog-likes">
+            <app-like-button [blogId]="blog.id" [countLikes]="blog.countLikes" [likeStatus]="blog.isLike" (onLikeChange)="onLikeChange($event)"></app-like-button>
+            <span class="count-likes">Всего лайков: {{blog.countLikes}}</span>
+        </div>
+        <div [innerHTML]="blog.description" class="blog-content">
+        </div>
+    </ng-template>
+</div>

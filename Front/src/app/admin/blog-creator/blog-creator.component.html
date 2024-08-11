@@ -1,0 +1,21 @@
+<div class="container mb-5">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div>
+            <span>Title</span>
+            <input class="form-control" type="text" alt="Title blog" formControlName="title">
+        </div>
+        <div>
+            <span>Description</span>
+            <angular-editor (ngModelChange)="onChange($event)" formControlName="description" [config]="editorConfig"></angular-editor>
+        </div>
+        <div>
+            <span>Short Description</span>
+            <input class="form-control" type="text" alt="Title blog" formControlName="shortDescription">
+        </div>
+        <div class="file-source-button d-flex flex-row align-items-center">
+            <span>Image Blog Url</span>
+            <input formControlName="photoUrl" type="text" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-outline-success">Apply</button>
+    </form>
+</div>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -83,7 +85,7 @@ namespace MyBlog
             });
 
             services.AddControllers();
-
+            
             services.AddSwaggerGen(c =>
             {
                 var securityScheme = new OpenApiSecurityScheme
@@ -106,7 +108,7 @@ namespace MyBlog
                     }
                 };
                 c.AddSecurityRequirement(securityRequirement);
-
+                
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBlog", Version = "v1" });
                 c.EnableAnnotations();
                 c.DescribeAllParametersInCamelCase();

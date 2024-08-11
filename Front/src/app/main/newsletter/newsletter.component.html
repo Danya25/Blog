@@ -1,0 +1,14 @@
+<section class="wrapper d-flex flex-row">
+    <div class="text-menu">
+        <p class="title-text">The Deep Dive</p>
+        <p class="main-text">Get the latest coverage of advanced web development straight into your inbox. Twice a month.</p>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="input-menu">
+        <div class="email">
+            <span class="email__text">Email</span>
+            <input formControlName="email" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+        </div>
+        <button [disabled]="!form.valid" class="btn btn-primary mt-3">Отправить</button>
+    </form>
+</section>
+
